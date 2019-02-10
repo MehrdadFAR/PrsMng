@@ -2,16 +2,12 @@ import sys
 import pandas as pd
 import os
 
-
-
-def hello(a,b):
-    print ("hello and that's your sum:", a + b)
-
 if __name__ == "__main__":
 
-    f = open("Road_Traffic_Fine_Management_Process-training.csv")
-    output = "output.csv"
-    inData = pd.read_csv(f)
+    training = open(sys.argv[1])
+    test = open(sys.argv[2])
+    output = sys.argv[3]
+    inData = pd.read_csv(training)
     inData = inData.reindex( columns = inData.columns.tolist() + ["newColumn"])
     inData.to_csv(output)
     print(inData)
