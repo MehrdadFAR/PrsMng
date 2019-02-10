@@ -8,7 +8,8 @@ def hello(a,b):
     print ("hello and that's your sum:", a + b)
 
 if __name__ == "__main__":
-    
-    f = open(sys.argv[1])
+
+    f = open("Road_Traffic_Fine_Management_Process-training.csv")
     inData = pd.read_csv(f)
+    inData = inData.reindex( columns = inData.columns.tolist() + ["newColumn"])
     print(inData)
