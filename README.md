@@ -1,2 +1,2 @@
-# ProcessMining
-This is the repository foe the assignment of the course Process Mining
+# PrsMng
+This is the repository for the group project ...
