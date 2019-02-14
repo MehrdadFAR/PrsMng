@@ -69,7 +69,7 @@ if __name__ == "__main__":
         varMin = min(start_end_log_test.iloc[rowTracker])  # Var that keeps track of lowest timestamp
         temp1 = (varMax - varMin) / np.timedelta64(1,
                                                    's')  # Variable that holds difference in seconds between highest and lowest timestamp
-        temp2 = temp1 - secEstimation  # Variable that keeps track of estimate of remainder runtime event
+        temp2 = secEstimation - temp1  # Variable that keeps track of estimate of remainder runtime event
         temp3 = max(0, temp2)  # makes sure remainder time is not negative
 
         # print(temp3)
