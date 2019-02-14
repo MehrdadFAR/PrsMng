@@ -6,26 +6,28 @@ import numpy as np
 if __name__ == "__main__":
 
     arguments = sys.argv
-    
+    anEncoding = 'cp1252'
+
     # This block checks if three arguments are provided, and assigns them to variables.
     if len(arguments) < 4:
         raise Exception("Provide three arguments: Address_Input Address_Test OutputName.csv")
-    elif len(arguments) == 4:
-        training = open(arguments[1]) # arguments[1] is the absolute path to the training input file
-        test = open(arguments[2]) # arguments[2] is the absolute path to the test input file
-        outputName = arguments[3] # name of the output file
     else:
-        pass # TO_DO: implementation of fetching extra variables.
+        trainingAddress = arguments[1]  #
+        testAddress = arguments[2]  # arguments[2] is the absolute path to the test input file
+        outputName = arguments[3]  # name of the output file
+        if len(arguments) == 5:
+            encoding = arguments[4]
 
     # If output name does not end with .csv or .txt append to it .csv
     if not (outputName.endswith(".csv") or outputName.endswith(".txt")):
         outputName = outputName + ".csv"
     
     # Read the CSV file
-    inData = pd.read_csv(training, encoding='cp1252')
-    inDataTest = pd.read_csv(test, encoding='cp1252')
+    inData = pd.read_csv(trainingAddress, encoding=anEncoding, low_memory=False)
+    inDataTest = pd.read_csv(testAddress, encoding=anEncoding, low_memory=False)
     #print(inData.head()) # TO_DO: REMOVE before dispatch
 
+    print(inDataTest.head())
     # Converting String to datetime
     timestamp = inData.columns.get_loc("event time:timestamp")
     inData[inData.columns[timestamp]] = pd.to_datetime(inData[inData.columns[timestamp]], format='%d-%m-%Y %H:%M:%S.%f')
@@ -41,10 +43,12 @@ if __name__ == "__main__":
         last = i[-1]
         delta = last - first
 
+    #print('delta: ', delta)
     # Naive estimator ouput
     Estimation = np.mean(delta)
     secEstimation = Estimation / np.timedelta64(1, 's')
-
+    #print(Estimation)
+    
     # Converting String to datetime
     timestampTest = inDataTest.columns.get_loc("event time:timestamp")
     inDataTest[inDataTest.columns[timestampTest]] = pd.to_datetime(inDataTest[inDataTest.columns[timestamp]], format='%d-%m-%Y %H:%M:%S.%f')
@@ -90,7 +94,7 @@ if __name__ == "__main__":
         inDataTest.at[rowsProcessed,'Naive_Predictor'] = dictionary[inDataTest.at[rowsProcessed,'case concept:name']]
         rowsProcessed += 1
 
-    #print(inDataTest.head()) # TO_DO: REMOVE before dispatch
+    print(inDataTest.head()) # TO_DO: REMOVE before dispatch
 
     # Output the result a file
     inDataTest.to_csv(outputName, index=False)
