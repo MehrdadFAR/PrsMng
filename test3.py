@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import os
+import numpy as np
 
 if __name__ == "__main__":
 
@@ -11,7 +12,7 @@ if __name__ == "__main__":
         raise Exception("Provide three arguments: Address_Input Address_Test OutputName.csv")
     elif len(arguments) == 4:
         training = open(arguments[1]) # arguments[1] is the absolute path to the training input file
-        # test = open(arguments[2]) # arguments[2] is the absolute path to the test input file
+        test = open(arguments[2]) # arguments[2] is the absolute path to the test input file
         outputName = arguments[3] # name of the output file
     else:
         pass # TO_DO: implementation of fetching extra variables.
@@ -21,13 +22,76 @@ if __name__ == "__main__":
         outputName = outputName + ".csv"
     
     # Read the CSV file
-    inData = pd.read_csv(training)
-    print(inData.head()) # TO_DO: REMOVE before dispatch
+    inData = pd.read_csv(training, encoding='cp1252')
+    inDataTest = pd.read_csv(test, encoding='cp1252')
+    #print(inData.head()) # TO_DO: REMOVE before dispatch
+
+    # Converting String to datetime
+    timestamp = inData.columns.get_loc("event time:timestamp")
+    inData[inData.columns[timestamp]] = pd.to_datetime(inData[inData.columns[timestamp]], format='%d-%m-%Y %H:%M:%S.%f')
+
+    # Grouping cases by start and end time
+    start_end_log = inData.groupby('case concept:name')['event time:timestamp'].apply(list)
+
+    # Computing the delta
+    delta = []
+
+    for i in start_end_log:
+        first = i[0]
+        last = i[-1]
+        delta = last - first
+
+    # Naive estimator ouput
+    Estimation = np.mean(delta)
+    secEstimation = Estimation / np.timedelta64(1, 's')
+
+    # Converting String to datetime
+    timestampTest = inDataTest.columns.get_loc("event time:timestamp")
+    inDataTest[inDataTest.columns[timestampTest]] = pd.to_datetime(inDataTest[inDataTest.columns[timestamp]], format='%d-%m-%Y %H:%M:%S.%f')
+
+    # Grouping cases by start and end time
+    start_end_log_test = inDataTest.groupby('case concept:name')['event time:timestamp'].apply(list)
+
+    dictionary = {}
+    rowTracker = 0
+    keyTracker = start_end_log_test.keys()
+
+    for row in start_end_log_test:
+        dict1 = {}
+        # get input row in dictionary format
+        # key = col_name
+
+        # print(row) #This will print the whole row can be used for checking whether you actualy find the correct max.
+
+        varKey = keyTracker[rowTracker]  # stores the key for the dictonary
+
+        varMax = max(start_end_log_test.iloc[rowTracker])  # Var that keeps track of highest timestamp
+        varMin = min(start_end_log_test.iloc[rowTracker])  # Var that keeps track of lowest timestamp
+        temp1 = (varMax - varMin) / np.timedelta64(1,
+                                                   's')  # Variable that holds difference in seconds between highest and lowest timestamp
+        temp2 = temp1 - secEstimation  # Variable that keeps track of estimate of remainder runtime event
+        temp3 = max(0, temp2)  # makes sure remainder time is not negative
+
+        # print(temp3)
+
+        dict1.update({varKey: temp3})
+        rowTracker += 1
+
+        dictionary.update(dict1)
+    #print(dictionary)
+
 
     # Add extra column for naive predictor
-    inData['Naive_Predictor'] = 0 # TO_DO: "0" to be replaced with actual prediction
-    print(inData.head()) # TO_DO: REMOVE before dispatch
+    inDataTest['Naive_Predictor'] = 0 #dictionary[] # TO_DO: "0" to be replaced with actual prediction
+
+
+    rowsProcessed = 0
+    for index, row in inDataTest.iterrows():
+        inDataTest.at[rowsProcessed,'Naive_Predictor'] = dictionary[inDataTest.at[rowsProcessed,'case concept:name']]
+        rowsProcessed += 1
+
+    #print(inDataTest.head()) # TO_DO: REMOVE before dispatch
 
     # Output the result a file
-    inData.to_csv(outputName, index=False)
+    inDataTest.to_csv(outputName, index=False)
 

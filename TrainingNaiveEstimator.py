@@ -26,6 +26,8 @@ secEstimation = Estimation / np.timedelta64(1, 's')
 
 rows_list = []
 rowTracker = 0
+keyTracker = start_end_log.keys()
+
 for row in start_end_log:
     dict1 = {}
     # get input row in dictionary format
@@ -33,8 +35,7 @@ for row in start_end_log:
 
     # print(row) #This will print the whole row can be used for checking whether you actualy find the correct max.
 
-    # var1 = start_end_log.iloc[var3, 0]
-    # print(var1)
+    varKey = keyTracker[rowTracker] #stores the key for the dictonary
 
     varMax = max(start_end_log.iloc[rowTracker])  # Var that keeps track of highest timestamp
     varMin = min(start_end_log.iloc[rowTracker])  # Var that keeps track of lowest timestamp
@@ -42,12 +43,10 @@ for row in start_end_log:
     temp2 = temp1 - secEstimation  # Variable that keeps track of estimate of remainder runtime event
     temp3 = max(0, temp2)  # makes sure remainder time is not negative
 
-    print(temp3)
+    #print(temp3)
 
-    # dict1.update({var1 : temp3})
+    dict1.update({varKey : temp3})
     rowTracker += 1
 
-    # print(temp3)
-
-    # rows_list.append(dict1)
-# print(rows_list)
+    rows_list.append(dict1)
+print(rows_list)
