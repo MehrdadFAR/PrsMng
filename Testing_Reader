@@ -19,6 +19,7 @@ if __name__ == "__main__":
         print("option-1 started")
         inData = pd.read_csv(trainingAddress, encoding=anEncoding, low_memory=False)
         print(inData.head())
+        print(inData.describe())
         print("done")
 
 
@@ -65,23 +66,35 @@ if __name__ == "__main__":
             # cp1252
             reader = csv.reader(csvfile, delimiter=',')
             i = 0
+
             for row in reader:
                 aList.append(row)
-                # if i in [0, 1, 10 , 100, 200, 300, 3000, 3500, 4000, 4500, 984886, 984887, 984888, 984889]:
-                #    print(i)
-                #    print()
-                #    print(row[62])
-                #    print(row[63])
-                #    print(row)
-                #    print("--")
-                # i += 1
+                if i in [0, 1, 10 , 100, 200, 300, 3000, 3500, 4000, 4500, 984886, 984887, 984888, 984889]:
+                    print(i)
+                    print()
+                    print(row[62])
+                    print(row[63])
+                    print(row)
+                    print("--")
+                i += 1
             print('done')
+
+    # option 7:
+    def option_7():
+        print("option-7 started")
+        inData = pd.read_csv(trainingAddress, encoding=anEncoding, dtype=str)
+        print(inData.head())
+        print(inData.describe())
+        print("donee")
+
+
 
 
     # **** tests each of these by un-commenting it. only one to be uncommented in each test. ****
     #option_1()
-    option_2()
+    #option_2()
     #option_3()
     #option_4()
     #option_5()
     #option_6()
+    option_7()
