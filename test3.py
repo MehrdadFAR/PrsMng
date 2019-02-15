@@ -21,11 +21,11 @@ if __name__ == "__main__":
     # If output name does not end with .csv or .txt append to it .csv
     if not (outputName.endswith(".csv") or outputName.endswith(".txt")):
         outputName = outputName + ".csv"
-    
+
     # Read the CSV file
     inData = pd.read_csv(trainingAddress, encoding=anEncoding, low_memory=False)
     inDataTest = pd.read_csv(testAddress, encoding=anEncoding, low_memory=False)
-    #print(inData.head()) # TO_DO: REMOVE before dispatch
+    # print(inData.head()) # TO_DO: REMOVE before dispatch
 
     print(inDataTest.head())
     # Converting String to datetime
@@ -35,23 +35,25 @@ if __name__ == "__main__":
     # Grouping cases by start and end time
     start_end_log = inData.groupby('case concept:name')['event time:timestamp'].apply(list)
 
-    # Computing the delta
-    delta = []
-    
-    for i in start_end_log:
-        first = i[0]
-        last = i[-1]
-        delta = last - first
+    timeDelta = []
 
-    #print('delta: ', delta)
-    # Naive estimator ouput
-    Estimation = np.mean(delta)
-    secEstimation = Estimation / np.timedelta64(1, 's')
-    #print(Estimation)
-    
+    for i in start_end_log:
+        #print(i)
+        first = i[0]
+        last = max(i)
+        timeDelta.append(last - first)
+
+    Estimation = pd.DataFrame(timeDelta, columns=['timedelta'])
+    meanEstimation = np.mean(Estimation['timedelta'])
+
+
+    secEstimation = meanEstimation / np.timedelta64(1, 's')
+    # print(Estimation)
+
     # Converting String to datetime
     timestampTest = inDataTest.columns.get_loc("event time:timestamp")
-    inDataTest[inDataTest.columns[timestampTest]] = pd.to_datetime(inDataTest[inDataTest.columns[timestamp]], format='%d-%m-%Y %H:%M:%S.%f')
+    inDataTest[inDataTest.columns[timestampTest]] = pd.to_datetime(inDataTest[inDataTest.columns[timestamp]],
+                                                                   format='%d-%m-%Y %H:%M:%S.%f')
 
     # Grouping cases by start and end time
     start_end_log_test = inDataTest.groupby('case concept:name')['event time:timestamp'].apply(list)
@@ -82,20 +84,17 @@ if __name__ == "__main__":
         rowTracker += 1
 
         dictionary.update(dict1)
-    #print(dictionary)
-
+    # print(dictionary)
 
     # Add extra column for naive predictor
-    inDataTest['Naive_Predictor'] = 0 #dictionary[] # TO_DO: "0" to be replaced with actual prediction
-
+    inDataTest['Naive_Predictor'] = 0  # dictionary[] # TO_DO: "0" to be replaced with actual prediction
 
     rowsProcessed = 0
     for index, row in inDataTest.iterrows():
-        inDataTest.at[rowsProcessed,'Naive_Predictor'] = dictionary[inDataTest.at[rowsProcessed,'case concept:name']]
+        inDataTest.at[rowsProcessed, 'Naive_Predictor'] = dictionary[inDataTest.at[rowsProcessed, 'case concept:name']]
         rowsProcessed += 1
 
-    print(inDataTest.head()) # TO_DO: REMOVE before dispatch
+    print(inDataTest.head())  # TO_DO: REMOVE before dispatch
 
     # Output the result a file
-    inDataTest.to_csv(outputName, index=False)
-
+inDataTest.to_csv(outputName, index=False)
