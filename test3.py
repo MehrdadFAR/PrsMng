@@ -37,11 +37,13 @@ if __name__ == "__main__":
 
     # Computing the delta
     delta = []
-
+    counter = 0
+    
     for i in start_end_log:
         first = i[0]
         last = i[-1]
-        delta = last - first
+        delta[counter] = last - first
+        counter += 1
 
     #print('delta: ', delta)
     # Naive estimator ouput
