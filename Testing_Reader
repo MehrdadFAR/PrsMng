@@ -104,15 +104,16 @@ if __name__ == "__main__":
     # option 7:
     def option_7():
         print("option-7 started")
-        chunksize = 10 ** 6
+        chunksize = 100000
         list = []
-        for chunk in pd.read_csv(trainingAddress, chunksize=chunksize):
+        for chunk in pd.read_csv(trainingAddress, chunksize=chunksize, encoding=anEncoding, low_memory=False, delimiter=','):
             list.append(chunk)
+            print(chunk.head())
+        print("number of data frames in this list: ", len(list))
 
         #inData = pd.read_csv(trainingAddress, encoding=anEncoding, dtype=str)
         #print(inData.head())
-        print(list.describe())
-        print("donee")
+        print("Gelukkig")
 
     def option_8():
         print("option-8 started")
@@ -123,6 +124,10 @@ if __name__ == "__main__":
         print("done")
         print(inData.ilock[88000])
 
+    def option_9():
+        file = [dict(line) for line in csv.DictReader(open(trainingAddress, 'r'))]
+        print(file)
+
 
 
     # **** tests each of these by un-commenting it. only one to be uncommented in each test. ****
@@ -131,6 +136,7 @@ if __name__ == "__main__":
     #option_3()
     #option_4()
     #option_5()
-    option_6()
-    #option_7()
+    #option_6()
+    option_7()
     #option_8()
+    #option_9()
