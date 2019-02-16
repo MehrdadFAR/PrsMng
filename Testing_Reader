@@ -21,6 +21,7 @@ if __name__ == "__main__":
         print(inData.head())
         print(inData.describe())
         print("done")
+        print(inData.iloc[4])
 
 
     # option 2: checking if python engine is any help - for me after 8 minutes still not finished
@@ -61,32 +62,66 @@ if __name__ == "__main__":
         print("option-6 started")
         import csv
         aList = []
-        with open(trainingAddress, encoding='cp1252') as csvfile:
+        #with open(trainingAddress, encoding='cp1252') as csvfile:
+        with open(trainingAddress) as csvfile:
             # csvfile.decode('cp1252').encode('utf-8')
             # cp1252
             reader = csv.reader(csvfile, delimiter=',')
             i = 0
 
-            for row in reader:
-                aList.append(row)
-                if i in [0, 1, 10 , 100, 200, 300, 3000, 3500, 4000, 4500, 984886, 984887, 984888, 984889]:
-                    print(i)
-                    print()
-                    print(row[62])
-                    print(row[63])
+
+            iter_obj = iter(reader)
+
+            # infinite loop
+            while True:
+                try:
+                    # get the next item
+                    row = next(iter_obj)
                     print(row)
-                    print("--")
-                i += 1
+                except:
+                    print(" exception ")
+                    print(str(next(iter_obj)))
+                    break
+
+           # for row in reader:
+              #  pass
+                #try:
+                    #print(row)
+                #except:
+                    #print("exception catched")
+                   # print(str(row))
+                #aList.append(row)
+                #if i in [0, 1, 10 , 100, 200, 300, 3000, 3500, 4000, 4500, 984886, 984887, 984888, 984889]:
+                    #print(i)
+                    #print()
+                    #print(row[62])
+                    #print(row[63])
+                    #print(row)
+                    #print("--")
+                #i += 1
             print('done')
 
     # option 7:
     def option_7():
         print("option-7 started")
-        inData = pd.read_csv(trainingAddress, encoding=anEncoding, dtype=str)
-        print(inData.head())
-        print(inData.describe())
+        chunksize = 10 ** 6
+        list = []
+        for chunk in pd.read_csv(trainingAddress, chunksize=chunksize):
+            list.append(chunk)
+
+        #inData = pd.read_csv(trainingAddress, encoding=anEncoding, dtype=str)
+        #print(inData.head())
+        print(list.describe())
         print("donee")
 
+    def option_8():
+        print("option-8 started")
+        import dask.dataframe as dd
+        inData = dd.read_csv(trainingAddress)
+        print(inData.head())
+        print(inData.describe())
+        print("done")
+        print(inData.ilock[88000])
 
 
 
@@ -96,5 +131,6 @@ if __name__ == "__main__":
     #option_3()
     #option_4()
     #option_5()
-    #option_6()
-    option_7()
+    option_6()
+    #option_7()
+    #option_8()
