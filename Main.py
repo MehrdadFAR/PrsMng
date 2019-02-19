@@ -26,3 +26,12 @@ if __name__ == "__main__":
     training_DictionaryCreator = DictionaryCreator()
     training_main_dictionary = training_DictionaryCreator.create_main_dictionary(df_list)
     training_min_dictionary = training_DictionaryCreator.create_min_dictionary()
+    training_max_dictionary = training_DictionaryCreator.create_max_dictionary()
+    temp = training_DictionaryCreator.create_acc_remain_predict_dictionary(df_list, 691200)
+
+    training_acc_dictionary = temp[0]
+    training_predictNaive_dictionary = temp[1]
+    training_remain_dictionary = temp[2]
+
+    for key, value in training_acc_dictionary.items():
+        print(key, value)
