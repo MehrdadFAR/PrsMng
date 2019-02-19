@@ -55,7 +55,7 @@ class DictionaryCreator:
             else:
                 raise Exception("method create_main_dictionary was not called at least once to create the maxdict as side effect")
 
-        def create_acc_remain_predict_dictionary(self, df_list, naiveEstimator):
+        def create_acc_remain_predict_dictionary(self, df_list, naive_estimator):
             for df in df_list:
                 tempDF = pd.DataFrame(df)
                 for index, row in tempDF.iterrows():
@@ -65,10 +65,10 @@ class DictionaryCreator:
                     minValue = self.minDict[case_concept_name]
                     accValue = (time - minValue) / np.timedelta64(1, 's')
                     self.accDict[e_ID] = accValue
-                    predictValue = max(0, (naiveEstimator - accValue))
+                    predictValue = max(0, (naive_estimator - accValue))
                     self.predictNaiveDict[e_ID] =  predictValue
                     #
                     maxValue = self.maxDict[case_concept_name]
-                    self.remainDict[e_ID] = (maxValue - time)
+                    self.remainDict[e_ID] = (maxValue - time) / np.timedelta64(1, 's')
 
             return self.accDict, self.predictNaiveDict, self.remainDict
