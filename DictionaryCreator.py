@@ -26,9 +26,9 @@ class DictionaryCreator:
                     self.mainDict.setdefault(case_concept_name, []).append(tempDict)
 
                     # create min dictionary as side effect to prevent looping twice.
-                    event_time_stamp = pd.to_datetime(tempDict[e_ID][ "event time:timestamp"], format='%d-%m-%Y %H:%M:%S.%f')
-
-                    min = self.minDict.setdefault(case_concept_name, float("inf"))
+                    event_time_stamp = pd.to_datetime(str(tempDict[e_ID][ "event time:timestamp"]), format='%d-%m-%Y %H:%M:%S.%f')
+                    #print(event_time_stamp)
+                    min = self.minDict.setdefault(case_concept_name, event_time_stamp)
 
                     if event_time_stamp < min:
                         self.minDict[case_concept_name] = event_time_stamp
