@@ -69,6 +69,7 @@ class DictionaryCreator:
                     self.predictNaiveDict[e_ID] =  predictValue
                     #
                     maxValue = self.maxDict[case_concept_name]
-                    self.remainDict[e_ID] = (maxValue - time) / np.timedelta64(1, 's')
+
+                    self.remainDict[e_ID] = ((maxValue - time) / np.timedelta64(1, 's'))
 
             return self.accDict, self.predictNaiveDict, self.remainDict
