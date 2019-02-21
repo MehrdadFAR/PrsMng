@@ -16,3 +16,18 @@ class InputProcessor:
             print("Exception in reading the file.")
         print("Reading file completed. Number of DataFrames: ", len(a_list) )
         return a_list
+
+    def write_file(self, name, an_encoding, df_list):
+        print("writing to file started.")
+
+        include_header = True
+        with open(name, 'w') as f:
+            for df in df_list:
+                try:
+                    df.to_csv(f, header=include_header, encoding=an_encoding, index=False)
+                    include_header =  False
+                except:
+                    print("Exception in writing the file.")
+
+        print("writing file completed. Number of DataFrames: ")
+        #return a_list

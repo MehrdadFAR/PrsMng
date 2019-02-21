@@ -59,7 +59,7 @@ class DictionaryCreator:
             for df in df_list:
                 tempDF = pd.DataFrame(df)
                 for index, row in tempDF.iterrows():
-                    e_ID = row["eventID "]
+                    e_ID = str(row["eventID "])
                     case_concept_name = str([row["case concept:name"]])
                     time = pd.to_datetime(str(row["event time:timestamp"]), format='%d-%m-%Y %H:%M:%S.%f')
                     minValue = self.minDict[case_concept_name]
@@ -69,7 +69,6 @@ class DictionaryCreator:
                     self.predictNaiveDict[e_ID] =  predictValue
                     #
                     maxValue = self.maxDict[case_concept_name]
-
-                    self.remainDict[e_ID] = ((maxValue - time) / np.timedelta64(1, 's'))
+                    self.remainDict[e_ID] = (maxValue - time) / np.timedelta64(1, 's')
 
             return self.accDict, self.predictNaiveDict, self.remainDict

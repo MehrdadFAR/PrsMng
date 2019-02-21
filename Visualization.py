@@ -26,8 +26,8 @@ class Visualization:
 
         # Computation of first plot: scatter plot of estimated and real value for Naive Estimator.
 
-        plt.scatter(x, y, color = 'b', label = 'real waiting time')
-        plt.scatter(x, naivePrediction, color = 'r', alpha = 0.5, label = 'predicted waiting time')
+        plt.scatter(x, y, color = 'b', label = 'real waiting time', s=1)
+        plt.scatter(x, naivePrediction, color = 'r', alpha = 0.5, label = 'predicted waiting time', s=1)
         plt.legend(loc = 'upper right')
         plt.xlabel('Time spent (seconds)')
         plt.ylabel('Time left (seconds)')
