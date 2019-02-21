@@ -6,6 +6,7 @@ import csv
 from InputProcessor import InputProcessor
 from DictionaryCreator import DictionaryCreator
 from NaiveEstimator import NaiveEstimator
+from Visualization import Visualization
 
 
 
@@ -53,11 +54,16 @@ if __name__ == "__main__":
     Naive_estimator_training = NaiveEstimator()
     Naive_estimator = Naive_estimator_training.train_naive_estimator(training_min_dictionary, training_max_dictionary)
     #print(" THIS IS THE ESTIMATOR ", Naive_estimator)
-    temp = training_DictionaryCreator.create_acc_remain_predict_dictionary(df_list, 680001)
+    temp = training_DictionaryCreator.create_acc_remain_predict_dictionary(df_list, Naive_estimator)
 
     training_acc_dictionary = temp[0]
     training_predictNaive_dictionary = temp[1]
     training_remain_dictionary = temp[2]
+
+
+    testing_visualization = Visualization()
+    creating_graph = testing_visualization.create_visualization(training_acc_dictionary, training_remain_dictionary, training_predictNaive_dictionary)
+
     #--**for testing**--
     #for key, value in training_acc_dictionary.items():
         #print(key, value)
