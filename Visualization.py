@@ -39,23 +39,23 @@ class Visualization:
         # Computing MSE for Naive Estimator
         #meanSquared_naive = self.mse(y, naivePrediction)
 
+        mse = []
+        for i in range(0, len(y)):
+            mse.append((y[i] - naivePrediction[i]) ** 2)
+
+        #print("This is y:")
+        #print(mse)
+        #print(x)
+
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-        #plt.plot(x, meanSquared_naive, color='r', label='Naive Estimator', marker='.')
+        plt.plot(x, mse, color='r', label='Naive Estimator', marker='.')
         # plt.plot(x, meanSquared_est2, color = 'b', label = 'Estimator 2', marker = '.')
         # plt.plot(x, meanSquared_est3, color = 'g', label = 'Estimator 3', marker = '.')
         # plt.plot(x, meanSquared_est4, color = 'y', label = 'Estimator 4', marker = '.')
 
-        #plt.legend(loc='upper right')
-        #plt.ylabel('Mean Squared Error')
-        #plt.xlabel('Time spent (seconds)')
-        #plt.title('MSE')
-        #plt.savefig('MSE.png')  # Saving plot in a .png in current directory
-        #plt.show()
-
-
-    # Function for computing Mean Squared Error.
-    #def mse(self, y, y_pred):
-        #mse = []
-        #for i in range(0, len(y)):
-            #mse.append((y[i] - y_pred[i]) ** 2)
-        #return self.mse
+        plt.legend(loc='upper right')
+        plt.ylabel('Mean Squared Error')
+        plt.xlabel('Time spent (seconds)')
+        plt.title('MSE')
+        plt.savefig('MSE.png')  # Saving plot in a .png in current directory
+        plt.show()
