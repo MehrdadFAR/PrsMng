@@ -1,12 +1,12 @@
 import pandas as pd
 
-class InputProcessor:
+class FileProcessor:
     def __init__(self):
         pass
 
     # read the file and return a list of DataFrames
     def read_file(self, training_address, an_encoding):
-        print("Reading file started.")
+        print("Reading file:", str(training_address))
         chunk_size = 100000
         a_list = []
         try:
@@ -17,6 +17,7 @@ class InputProcessor:
         print("Reading file completed. Number of DataFrames: ", len(a_list) )
         return a_list
 
+
     def write_file(self, name, an_encoding, df_list):
         print("writing to file started.")
 
@@ -26,8 +27,9 @@ class InputProcessor:
                 try:
                     df.to_csv(f, header=include_header, encoding=an_encoding, index=False)
                     include_header =  False
+                    #print(df['Naive_Predictor'])
                 except:
                     print("Exception in writing the file.")
 
-        print("writing file completed. Number of DataFrames: ")
-        #return a_list
+        print("writing to file completed. File name: ", name)
+
