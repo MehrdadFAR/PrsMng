@@ -63,7 +63,7 @@ if __name__ == "__main__":
     test_acc_dictionary = temp[0]
     test_predictNaive_dictionary = temp[1]
     test_remain_dictionary = temp[2]
-    print("testing dictionaries created")
+    print("testing dictionaries created")x
 
     #print(test_predictNaive_dictionary['45011257262090'])
 
