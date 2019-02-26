@@ -4,13 +4,8 @@ import os
 import numpy as np
 import csv
 from FileProcessorM import FileProcessorM
-from DictionaryCreator import DictionaryCreator
-from NaiveEstimator import NaiveEstimator
 from Visualization import Visualization
-from ColumnCreator import ColumnCreator
-#from multiprocessing import Process
-#import threading
-#import datetime
+
 
 from datetime import datetime
 
@@ -150,6 +145,13 @@ if __name__ == "__main__":
         #print(key," : " ,value)
 
     #print(naive_estimations)
+
+
+
+    #Visualization
+    #visualizer = Visualization()
+    #aive_graph = visualizer.create_visualization(naive_estimations)
+
     print("Completed")
 
             #print(t1[1])
@@ -193,6 +195,5 @@ if __name__ == "__main__":
 
     #file_Processor.write_file(outputName, anEncoding, list_df_extra_col)
 
-    #visualizer = Visualization()
-    #naive_graph = visualizer.create_visualization(test_acc_dictionary, test_remain_dictionary, test_predictNaive_dictionary)
+
 

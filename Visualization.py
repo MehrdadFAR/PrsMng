@@ -1,12 +1,17 @@
 from matplotlib import pyplot as plt
+#import pandas as pd
 import numpy as np
+import datetime
+import math
 
 # Data input:
 # List of dictionaries with keys 'timeSpent', 'timeLeft' and 'predLeft'.
 
 class Visualization:
 
-    def create_visualization(self, accDict, remainDict, predictNaiveDict):
+
+    def create_visualization(self, estimations_list):
+        #format estimations list: event timestamp, estimated remaining time, case start time, case actual end time
         # Transforming dictionaries to lists per key.
         x = []
         y = []
@@ -15,14 +20,22 @@ class Visualization:
         #sortRemainDict = sorted(remainDict)
         #sortPredictDict = sorted(predictNaiveDict)
 
-        for key in sorted(accDict.keys()):
-            x.append(accDict[key])
+        for i in estimations_list:
 
-        for key in sorted(remainDict.keys()):
-            y.append(remainDict[key])
+            eventTime = i[0]
+            predictTime = i[1]
+            startTime = i[2]
+            endTime = i[3]
 
-        for key in sorted(predictNaiveDict.keys()):
-            naivePrediction.append(predictNaiveDict[key])
+            accTime = (eventTime - startTime).total_seconds()
+
+            #remove second line below comment, uncomment first line below this comment when actual code needs to be run.
+            remainTime = (endTime - eventTime).total_seconds()
+            #remainTime = 76529
+
+            x.append(accTime)
+            y.append(remainTime)
+            naivePrediction.append(predictTime)
 
         # Computation of first plot: scatter plot of estimated and real value for Naive Estimator.
 
@@ -39,16 +52,59 @@ class Visualization:
         # Computing MSE for Naive Estimator
         #meanSquared_naive = self.mse(y, naivePrediction)
 
+        # Computing MSE for Naive Estimator
+        # meanSquared_naive = self.mse(y, naivePrediction)
+        def binning(x, y, naivePred, num_of_bins):
+            binsize = (max(x) - min(x)) / (num_of_bins - 1)
+            binsX = []
+            binsY = []
+            binsNaive = []
+            for i in range(0, num_of_bins):
+                binsX.append([])
+                binsY.append([])
+                binsNaive.append([])
+
+            index = 0
+            for i in x:
+                binsX[int((i - min(x)) / binsize)].append(i)
+                binsY[int((i - min(x)) / binsize)].append(y[index])
+                binsNaive[int((i - min(x)) / binsize)].append(naivePred[index])
+
+            counter = 0
+            for j in binsX:
+                binsX[counter] = np.mean(j)
+                binsY[counter] = np.mean(binsY[counter])
+                binsY[counter] = np.mean(binsNaive[counter])
+                if math.isnan(binsX[counter]):
+                    binsX[counter] = 0
+                if math.isnan(binsY[counter]):
+                    binsY[counter] = 0
+                if math.isnan(binsNaive[counter]):
+                    binsNaive[counter] = 0
+                binsX[counter] = int(binsX[counter])
+                binsY[counter] = int(binsY[counter])
+                binsNaive[counter] = int(binsNaive[counter])
+                counter += 1
+            return binsX, binsY, binsNaive
+
+
+        tempBins = binning(x, y, naivePrediction, 11)
+
+        xBin = tempBins[0]
+        yBin = tempBins[1]
+        naiveBin = tempBins[2]
+
         mse = []
-        for i in range(0, len(y)):
-            mse.append((y[i] - naivePrediction[i]) ** 2)
+        for i in range(0, len(yBin)):
+            mse.append((yBin[i] - naiveBin[i]) ** 2)
 
-        #print("This is y:")
-        #print(mse)
-        #print(x)
-
+        # print("This is y:")
+        # print(mse)
+        # print(x)
+        print(xBin)
+        print(mse)
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-        plt.plot(x, mse, color='r', label='Naive Estimator', marker='.')
+        plt.plot(xBin, mse, color='r', label='Naive Estimator', marker='.')
         # plt.plot(x, meanSquared_est2, color = 'b', label = 'Estimator 2', marker = '.')
         # plt.plot(x, meanSquared_est3, color = 'g', label = 'Estimator 3', marker = '.')
         # plt.plot(x, meanSquared_est4, color = 'y', label = 'Estimator 4', marker = '.')
@@ -58,4 +114,5 @@ class Visualization:
         plt.xlabel('Time spent (seconds)')
         plt.title('MSE')
         plt.savefig('MSE.png')  # Saving plot in a .png in current directory
+
         plt.show()
