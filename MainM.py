@@ -36,7 +36,8 @@ if __name__ == "__main__":
     if  "dummy" in trainingAddress:
         finishing_event_list = ['e3','e4']
     elif  "BPI_2012" in trainingAddress:
-        finishing_event_list = None
+        finishing_event_list = ["A_CANCELLED", "A_ACTIVATED", "A_DECLINED", "W_Valideren aanvraag"]
+        #not yet checking if the aanvraag is finished !!!!!!!!
     elif  "BPI_2017" in trainingAddress:
         finishing_event_list = None
     elif "BPI_2018" in trainingAddress:
@@ -51,6 +52,7 @@ if __name__ == "__main__":
             return True
         else:
             return False
+
 
     naive_estimations = []
     #
@@ -69,9 +71,10 @@ if __name__ == "__main__":
         else:
             estimate_finish_time = sum_finish_times / count
             estimate_remaining =  max(estimate_finish_time - test_evt_passed_time, 0)
-            naive_estimations.append([test_evt['eventID '], estimate_remaining,
+            naive_estimations.append([test_evt['event time:timestamp'], estimate_remaining,
                                       test_evt_start_timeStamp,
-                                      None])
+                                      None])  #add the current time of the
+            # event??????????????????????
 
 
         #if (predicted_finish_t_stamp == -2):
@@ -98,10 +101,11 @@ if __name__ == "__main__":
     test_Dict = {}
     notFuture = True
     is_end_training =  False
+
     try:
         onHand_training_evt = next(itt_train_file)
     except StopIteration:
-        is_end_training   = False
+        is_end_training   = True
 
 
     for test_evt in itt_test_file:
@@ -139,13 +143,13 @@ if __name__ == "__main__":
         # of the test_event.
         predict_naive_estimation(test_evt, test_evt_caseName, test_Dict, train_Dict)
 
-    for key,value in test_Dict.items():
-        print(key," : " ,value)
-    print()
-    for key,value in train_Dict.items():
-        print(key," : " ,value)
+    #for key,value in test_Dict.items():
+        #print(key," : " ,value)
+    #print()
+    #for key,value in train_Dict.items():
+        #print(key," : " ,value)
 
-    print(naive_estimations)
+    #print(naive_estimations)
     print("Completed")
 
             #print(t1[1])
