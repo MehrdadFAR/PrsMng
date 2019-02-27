@@ -30,8 +30,8 @@ class Visualization:
             accTime = (eventTime - startTime).total_seconds()
 
             #remove second line below comment, uncomment first line below this comment when actual code needs to be run.
-            remainTime = (endTime - eventTime).total_seconds()
-            #remainTime = 76529
+            #remainTime = (endTime - eventTime).total_seconds()
+            remainTime = 76529
 
             x.append(accTime)
             y.append(remainTime)
@@ -73,18 +73,31 @@ class Visualization:
             counter = 0
             for j in binsX:
                 binsX[counter] = np.mean(j)
-                binsY[counter] = np.mean(binsY[counter])
-                binsY[counter] = np.mean(binsNaive[counter])
+
                 if math.isnan(binsX[counter]):
                     binsX[counter] = 0
+
+                binsX[counter] = int(binsX[counter])
+                counter += 1
+
+            counter = 0
+            for k in binsY:
+                binsY[counter] = np.mean(k)
+
                 if math.isnan(binsY[counter]):
                     binsY[counter] = 0
+                binsY[counter] = int(binsY[counter])
+                counter += 1
+
+            counter = 0
+            for l in binsNaive:
+                binsNaive[counter] = np.mean(l)
+                
                 if math.isnan(binsNaive[counter]):
                     binsNaive[counter] = 0
-                binsX[counter] = int(binsX[counter])
-                binsY[counter] = int(binsY[counter])
                 binsNaive[counter] = int(binsNaive[counter])
                 counter += 1
+
             return binsX, binsY, binsNaive
 
 
