@@ -68,7 +68,7 @@ if __name__ == "__main__":
             estimate_remaining =  max(estimate_finish_time - test_evt_passed_time, 0)
             naive_estimations.append([test_evt['event time:timestamp'], estimate_remaining,
                                       test_evt_start_timeStamp,
-                                      None])  #add the current time of the
+                                      None, test_evt_caseName])  #add the current time of the
             # event??????????????????????
 
 
@@ -138,6 +138,7 @@ if __name__ == "__main__":
         # of the test_event.
         predict_naive_estimation(test_evt, test_evt_caseName, test_Dict, train_Dict)
 
+        
     #for key,value in test_Dict.items():
         #print(key," : " ,value)
     #print()
@@ -145,7 +146,8 @@ if __name__ == "__main__":
         #print(key," : " ,value)
 
     #print(naive_estimations)
-
+    for l in naive_estimations:
+        l[3] = test_Dict[l[4]][2] 
 
 
     #Visualization
@@ -153,6 +155,8 @@ if __name__ == "__main__":
     #aive_graph = visualizer.create_visualization(naive_estimations)
 
     print("Completed")
+    
+    
 
             #print(t1[1])
     #a_NaiveEstimator.calculate_naive_estimator()
