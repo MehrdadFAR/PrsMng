@@ -112,6 +112,9 @@ if __name__ == "__main__":
         #  case_finish_stamp =   -1 means the case finsh time has not been determined yet.
         test_Dict.setdefault(test_evt_caseName, [[], test_evt_timeStamp, -1])[0].append(test_evt)
 
+        if isFinishEvent(test_evt["event concept:name"]):
+            test_Dict[test_evt_caseName][2] = test_evt_timeStamp
+
         while notFuture and not is_end_training:
             onHand_training_evt_timeStamp = onHand_training_evt['event time:timestamp']
 
