@@ -87,5 +87,5 @@ if __name__ == "__main__":
     print("Finished visualization")
 
     a_file_writer = FileWriter()
-    outputFile = a_file_writer.writeFile(outputName)
+    outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations)
 

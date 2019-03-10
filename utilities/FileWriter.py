@@ -5,7 +5,7 @@ class FileReader:
         self.anEncoding = encoding
 
 
-    def write_file(self, name):
+    def write_file(self, name, testFile, estimators):
         print("writing to file started.")
 
         #include_header = True
