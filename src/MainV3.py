@@ -85,3 +85,7 @@ if __name__ == "__main__":
     naive_graph = visualizer.create_visualization(naive_estimations)
 
     print("Finished visualization")
+
+    a_file_writer = FileWriter()
+    outputFile = a_file_writer.writeFile(outputName)
+
