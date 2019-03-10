@@ -136,7 +136,7 @@ class NaiveModel:
 
             # progress into training file as far as still have not reached a training event
             # with timestamp more than that of the test-event at hand.
-            while (not is_end_training) and (trn_event_event_timestamp < tst_event_event_timestamp):
+            while (not is_end_training) and (trn_event_event_timestamp <= tst_event_event_timestamp):
                 trn_event_event_concept_name = df_training.loc[index_of_trnEvent, "event concept:name"]
                 trn_event_case_concept_name = df_training.loc[index_of_trnEvent, "case concept:name"]
 
