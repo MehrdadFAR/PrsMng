@@ -9,11 +9,12 @@ import time
 # import threading
 # import datetime
 import pandas as pd
-from V3.utilities.ArgumentProcessor import ArgumentProcessor
-from V3.utilities.FileFinishFinder import FileFinishFinder
-from V3.utilities.FileReader import FileReader
-from V3.estimators.NaiveModel import NaiveModel
-from V3.utilities.MemoryUsage import MemoryUsage
+from utilities.ArgumentProcessor import ArgumentProcessor
+from utilities.FileFinishFinder import FileFinishFinder
+from utilities.FileReader import FileReader
+from estimators.NaiveModel import NaiveModel
+from utilities.MemoryUsage import MemoryUsage
+from Visualization import Visualization
 
 if __name__ == "__main__":
 
@@ -76,3 +77,11 @@ if __name__ == "__main__":
                                                         trainingAddress)
     t2 = time.time()
     print("Time _ calculating naive_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
+
+    # Visualization
+
+    print("Pre visualization")
+    visualizer = Visualization()
+    naive_graph = visualizer.create_visualization(naive_estimations)
+
+    print("Finished visualization")
