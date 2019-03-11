@@ -12,6 +12,7 @@ import pandas as pd
 from utilities.ArgumentProcessor import ArgumentProcessor
 from utilities.FileFinishFinder import FileFinishFinder
 from utilities.FileReader import FileReader
+from utilities.FileWriter import FileWriter
 from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
 from Visualization import Visualization
@@ -86,6 +87,6 @@ if __name__ == "__main__":
 
     print("Finished visualization")
 
-    a_file_writer = FileWriter()
+    a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations)
 

@@ -1,23 +1,28 @@
 import pandas as pd
-class FileReader:
+class FileWriter:
     anEncoding = None
     def __init__(self, encoding):
         self.anEncoding = encoding
 
 
-    def write_file(self, name, testFile, estimators):
+    def writeFile(self, name, testFile, estimators):
+
+        print("creating column")
+        testFile['Naive_Predictor'] = 0
+        for row in testFile.iterrows():
+            # Cant figure out how to get the naive estimator per event id so for now hardcoded as 1
+            #row['Naive_Predictor'] = 1
+            variable = 1
+
+
         print("writing to file started.")
+        include_header = True
+        with open(name, 'w') as f:
+            try:
+                testFile.to_csv(f, header=include_header, encoding=anEncoding, index=False)
+                print("testfile is put into csv")
+            except:
+                print("Exception in writing the file.")
 
-        #include_header = True
-        #with open(name, 'w') as f:
-            #for df in df_list:
-                #try:
-                    #df.to_csv(f, header=include_header, encoding=anEncoding, index=False)
-                    include_header = False
-                    # print(df['Naive_Predictor'])
-                #except:
-                    #print("Exception in writing the file.")
-
-        print("writing to file does not actualy happen yet")
 
         print("writing to file completed. File name: ", name)
