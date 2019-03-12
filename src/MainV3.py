@@ -81,12 +81,12 @@ if __name__ == "__main__":
 
     # Visualization
 
+    ''' 
     print("Pre visualization")
     visualizer = Visualization()
     naive_graph = visualizer.create_visualization(naive_estimations)
-
+    
     print("Finished visualization")
-
+    '''
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations)
-

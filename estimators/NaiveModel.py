@@ -53,7 +53,8 @@ class NaiveModel:
     test-event is not done and that event is ignored (meaning at that point in time we do not 
     have enough information to make the prediction). 
     '''
-    def predict_naive_estimation(self, tst_event_event_timestamp, tst_event_case_concept_name, TrD, TsD):
+    def predict_naive_estimation(self, tst_event_event_timestamp, tst_event_case_concept_name, TrD, TsD,
+                                 index_of_tstEvent):
 
         tst_evt_case_start_timestamp = TsD[tst_event_case_concept_name][
             'case_start_timestamp']
@@ -81,7 +82,7 @@ class NaiveModel:
 
             self.naive_estimations.append(
                 [tst_event_case_concept_name, tst_event_event_timestamp, tst_evt_case_start_timestamp,
-                 tst_evt_passed_seconds, estimate_remaining_seconds, None])
+                 tst_evt_passed_seconds, estimate_remaining_seconds, None, index_of_tstEvent])
 
     #__End of method__
 
@@ -92,7 +93,7 @@ class NaiveModel:
     '''
     def calc_naive_estimate(self, df_training, df_test, a_file_finish_finder, trainingAddress):
         print("Naive estimator started")
-        #load here for faster access: ?
+        #load here for faster acces s: ?
         TsD = self.test_Dict
         TrD = self.training_Dict
 
@@ -125,7 +126,8 @@ class NaiveModel:
             # and then add this.
             TsD.setdefault(tst_event_case_concept_name, {'ev_list' : [],
                     'case_start_timestamp' : tst_event_event_timestamp,
-                    'case_finish_timestamp': None})['ev_list'].append(index_of_tstEvent)
+                    'case_finish_timestamp': None})['ev_list'].append(
+                index_of_tstEvent)
 
             # If this test_event is a finish-event, update the finish timestamp of its case.
             if tst_event_event_concept_name in finish_events:
@@ -136,7 +138,7 @@ class NaiveModel:
 
             # progress into training file as far as still have not reached a training event
             # with timestamp more than that of the test-event at hand.
-            while (not is_end_training) and (trn_event_event_timestamp <= tst_event_event_timestamp):
+            while (not is_end_training) and (trn_event_event_timestamp < tst_event_event_timestamp):
                 trn_event_event_concept_name = df_training.loc[index_of_trnEvent, "event concept:name"]
                 trn_event_case_concept_name = df_training.loc[index_of_trnEvent, "case concept:name"]
 
@@ -165,7 +167,7 @@ class NaiveModel:
 
             # assertion: at this point all the training events with timestamp before or equal
             # time_stamp of the test_event are seen.
-            self.predict_naive_estimation(tst_event_event_timestamp, tst_event_case_concept_name, TrD, TsD)
+            self.predict_naive_estimation(tst_event_event_timestamp, tst_event_case_concept_name, TrD, TsD, index_of_tstEvent)
 
         #__End of for-loop__
 
@@ -187,3 +189,4 @@ class NaiveModel:
         for l in na_es:
             #l[0] is the tst_evt_case_concept_name
             l[5] = TsD[l[0]]['case_finish_timestamp']
+
