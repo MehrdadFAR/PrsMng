@@ -5,21 +5,20 @@ class FileWriter:
         self.anEncoding = encoding
 
 
-    def writeFile(self, name, testFile, estimators):
+    def writeFile(self, name, df_test, estimators):
 
         print("creating column")
-        testFile['Naive_Predictor'] = 0
-        for index, row in testFile.iterrows():
-            # Cant figure out how to get the naive estimator per event id so for now hardcoded as 1
-            testFile.at[index,'Naive_Predictor'] = 1
-
+        df_test['Naive_Predictor'] = "NaN"
+        for l in  estimators:
+            index = l[6]
+            estimation = l[4]
+            df_test.at[index, 'Naive_Predictor'] = estimation
 
         print("writing to file started.")
         try:
-            testFile.to_csv(name, index=False, encoding=self.anEncoding)
+            df_test.to_csv(name, index=False, encoding=self.anEncoding)
             print("testfile is put into csv")
         except:
             print("Exception in writing the file.")
-
 
         print("writing to file completed. File name: ", name)
