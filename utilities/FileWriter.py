@@ -12,7 +12,7 @@ class FileWriter:
         for l in  estimators:
             index = l[6]
             estimation = l[4]
-            df_test.at[index, 'Naive_Predictor'] = estimation
+            df_test.at[index, 'Naive_Predictor'] = round(estimation)
 
         print("writing to file started.")
         try:
