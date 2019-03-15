@@ -30,15 +30,15 @@ class Visualization:
             #Take the passed argument and store the needed attributes
             eventTime = i[1]
             startTime = i[2]
-            predictTime = i[4]
+            predictTime = i[4]/3600
             endTime = i[5]
 
             #Compute the time that has passed from the beginning of the case till the current event
-            accTime = (eventTime - startTime).total_seconds()
+            accTime = (eventTime - startTime).total_seconds()/3600
 
             #Makes sure the event is only visualized if there exists an finishing event
             if endTime != None:
-                remainTime = (endTime - eventTime).total_seconds()
+                remainTime = max(0,(endTime - eventTime).total_seconds()/3600)
 
                 x.append(accTime)
                 y.append(remainTime)
@@ -49,8 +49,8 @@ class Visualization:
         plt.scatter(x, y, color='b', label='real waiting time', s=1)
         plt.scatter(x, naivePrediction, color='r', alpha=0.5, label='predicted waiting time', s=1)
         plt.legend(loc='upper right')
-        plt.xlabel('Time spent (seconds)')
-        plt.ylabel('Time left (seconds)')
+        plt.xlabel('Time spent (hours)')
+        plt.ylabel('Time left (hours)')
         plt.title('Naive prediction waiting time')
         plt.savefig('Naive Estimator.png')  # Saving plot in a .png in current directory
         plt.show()
@@ -82,6 +82,13 @@ class Visualization:
 
                 index += 1
 
+            print("First bin x:", len(binsX[0]))
+            print("First bin y:", len(binsY[0]))
+            print("First bin naive:", len(binsNaive[0]))
+
+            print("2 bin x:", len(binsX[1]))
+            print("2 bin y:", len(binsY[1]))
+            print("2 bin naive:", len(binsNaive[1]))
 
             #Computes the mean of every x bin
             counter = 0
@@ -117,11 +124,12 @@ class Visualization:
             return binsX, binsY, binsNaive
 
         #Calls the binning function
-        tempBins = binning(x, y, naivePrediction, 11)
+        tempBins = binning(x, y, naivePrediction, 21)
 
         xBin = tempBins[0]
         yBin = tempBins[1]
         naiveBin = tempBins[2]
+
 
         #Fills the MSE
         mse = []
@@ -129,8 +137,8 @@ class Visualization:
             mse.append((yBin[i] - naiveBin[i]) ** 2)
 
 
-        #print(xBin)
-        #print(mse)
+        print(xBin)
+        print(mse)
 
 
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
@@ -138,7 +146,7 @@ class Visualization:
 
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error')
-        plt.xlabel('Time spent (seconds)')
+        plt.xlabel('Time spent (hours)')
         plt.title('MSE')
         plt.savefig('MSE.png')  # Saving plot in a .png in current directory
 
