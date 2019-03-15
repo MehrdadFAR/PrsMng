@@ -14,8 +14,10 @@ from utilities.FileFinishFinder import FileFinishFinder
 from utilities.FileReader import FileReader
 from utilities.FileWriter import FileWriter
 from estimators.NaiveModel import NaiveModel
+from sklearn.cluster import KMeans
 from utilities.MemoryUsage import MemoryUsage
 from Visualization import Visualization
+from estimators.Clustering import Clustering
 
 if __name__ == "__main__":
 
@@ -78,6 +80,40 @@ if __name__ == "__main__":
                                                         trainingAddress)
     t2 = time.time()
     print("Time _ calculating naive_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
+
+
+    '''
+    Train cluster estimator
+    '''
+    df_Training_copy2 = df_Training.copy()
+
+    df_Test_copy2 = df_Test.copy()
+
+    aClusterModel = Clustering()
+    clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_copy2)
+    clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_copy2)
+
+    naiveClass = NaiveModel()
+    naiveClusterOne = naive_model.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder, trainingAddress)
+
+    naiveClusterTwo = naive_model.calc_naive_estimate(clustersTraining[1], clustersTest[1], a_file_finish_finder, trainingAddress)
+
+    naiveClusterThree = naive_model.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder, trainingAddress)
+
+    naiveClusterFour = naive_model.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder, trainingAddress)
+
+    naiveClusterFive = naive_model.calc_naive_estimate(clustersTraining[4], clustersTest[4], a_file_finish_finder, trainingAddress)
+
+
+    clustered_estimations = clustered_estimations.append(naiveClusterOne)
+    clustered_estimations = clustered_estimations.append(naiveClusterTwo)
+    clustered_estimations = clustered_estimations.append(naiveClusterThree)
+    clustered_estimations = clustered_estimations.append(naiveClusterFour)
+    clustered_estimations = clustered_estimations.append(naiveClusterFive)
+
+    #update filewriter to write column clustered estimator
+
+    print(len(clustered_estimations))
 
     # Visualization
 
