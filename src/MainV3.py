@@ -1,5 +1,6 @@
 import sys
 import time
+
 # import csv
 # from DictionaryCreator import DictionaryCreator
 # from NaiveEstimator import NaiveEstimator
@@ -14,7 +15,6 @@ from utilities.FileFinishFinder import FileFinishFinder
 from utilities.FileReader import FileReader
 from utilities.FileWriter import FileWriter
 from estimators.NaiveModel import NaiveModel
-from sklearn.cluster import KMeans
 from utilities.MemoryUsage import MemoryUsage
 from Visualization import Visualization
 from estimators.Clustering import Clustering
@@ -93,23 +93,38 @@ if __name__ == "__main__":
     clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_copy2)
     clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_copy2)
 
-    naiveClass = NaiveModel()
-    naiveClusterOne = naive_model.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder, trainingAddress)
+    naiveClassOne = NaiveModel()
+    naiveClusterOne = naiveClassOne.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder, trainingAddress)
 
-    naiveClusterTwo = naive_model.calc_naive_estimate(clustersTraining[1], clustersTest[1], a_file_finish_finder, trainingAddress)
+    naiveClassTwo = NaiveModel()
+    naiveClusterTwo = naiveClassTwo.calc_naive_estimate(clustersTraining[1], clustersTest[1], a_file_finish_finder, trainingAddress)
 
-    naiveClusterThree = naive_model.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder, trainingAddress)
+    naiveClassThree = NaiveModel()
+    naiveClusterThree = naiveClassThree.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder, trainingAddress)
 
-    naiveClusterFour = naive_model.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder, trainingAddress)
+    naiveClassFour = NaiveModel()
+    naiveClusterFour = naiveClassFour.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder, trainingAddress)
 
-    naiveClusterFive = naive_model.calc_naive_estimate(clustersTraining[4], clustersTest[4], a_file_finish_finder, trainingAddress)
+    naiveClassFive = NaiveModel()
+    naiveClusterFive = naiveClassFive.calc_naive_estimate(clustersTraining[4], clustersTest[4], a_file_finish_finder, trainingAddress)
 
 
-    clustered_estimations = clustered_estimations.append(naiveClusterOne)
-    clustered_estimations = clustered_estimations.append(naiveClusterTwo)
-    clustered_estimations = clustered_estimations.append(naiveClusterThree)
-    clustered_estimations = clustered_estimations.append(naiveClusterFour)
-    clustered_estimations = clustered_estimations.append(naiveClusterFive)
+    clustered_estimations = []
+    clustered_estimations.append(naiveClusterOne)
+    clustered_estimations.append(naiveClusterTwo)
+    clustered_estimations.append(naiveClusterThree)
+    clustered_estimations.append(naiveClusterFour)
+    clustered_estimations.append(naiveClusterFive)
+
+
+    #clustered_estimations = pd.concat([naiveClusterOne, naiveClusterTwo, naiveClusterThree, naiveClusterFour, naiveClusterFive])
+
+    print("1 ", len(naiveClusterOne))
+    print("2 ", len(naiveClusterTwo))
+    print("3 ", len(naiveClusterThree))
+    print("4 ", len(naiveClusterFour))
+    print("5 ", len(naiveClusterFive))
+
 
     #update filewriter to write column clustered estimator
 
@@ -117,12 +132,22 @@ if __name__ == "__main__":
 
     # Visualization
 
-    ''' 
-    print("Pre visualization")
+    print(type(naive_estimations))
+    print(type(clustered_estimations))
+
+    print("Pre visualization1")
+
     visualizer = Visualization()
     naive_graph = visualizer.create_visualization(naive_estimations)
     
-    print("Finished visualization")
-    '''
+    print("Finished visualization1")
+
+    print("Pre visualization2")
+    visualizer = Visualization()
+    clustered_graph = visualizer.create_visualization(clustered_estimations)
+
+    print("Finished visualization2")
+
+
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations)

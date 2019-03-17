@@ -129,10 +129,12 @@ class NaiveModel:
                     'case_finish_timestamp': None})['ev_list'].append(
                 index_of_tstEvent)
 
-            # If this test_event is a finish-event, update the finish timestamp of its case.
+            # If this test_event is a finish-event, update the finish timestamp of its case if it is not it is reset to None
             if tst_event_event_concept_name in finish_events:
                 TsD[tst_event_case_concept_name]['case_finish_timestamp'] = \
                     tst_event_event_timestamp
+            elif tst_event_event_concept_name not in finish_events:
+                TsD[tst_event_case_concept_name]['case_finish_timestamp'] = None
 
             trn_event_event_timestamp = df_training.loc[index_of_trnEvent, 'event time:timestamp']
 
