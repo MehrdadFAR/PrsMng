@@ -135,6 +135,12 @@ if __name__ == "__main__":
     print(type(naive_estimations))
     print(type(clustered_estimations))
 
+    print("naive ", naive_estimations[0])
+
+    print("clustered ", naiveClusterOne[0])
+
+    #print("clustered ", clustered_estimations[0])
+
     print("Pre visualization1")
 
     visualizer = Visualization()

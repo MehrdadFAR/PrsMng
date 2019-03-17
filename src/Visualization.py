@@ -82,13 +82,13 @@ class Visualization:
 
                 index += 1
 
-            print("First bin x:", len(binsX[0]))
-            print("First bin y:", len(binsY[0]))
-            print("First bin naive:", len(binsNaive[0]))
+            #print("First bin x:", len(binsX[0]))
+            #print("First bin y:", len(binsY[0]))
+            #print("First bin naive:", len(binsNaive[0]))
 
-            print("2 bin x:", len(binsX[1]))
-            print("2 bin y:", len(binsY[1]))
-            print("2 bin naive:", len(binsNaive[1]))
+            #print("2 bin x:", len(binsX[1]))
+            #print("2 bin y:", len(binsY[1]))
+            #print("2 bin naive:", len(binsNaive[1]))
 
             #Computes the mean of every x bin
             counter = 0
