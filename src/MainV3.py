@@ -110,11 +110,11 @@ if __name__ == "__main__":
 
 
     clustered_estimations = []
-    clustered_estimations.append(naiveClusterOne)
-    clustered_estimations.append(naiveClusterTwo)
-    clustered_estimations.append(naiveClusterThree)
-    clustered_estimations.append(naiveClusterFour)
-    clustered_estimations.append(naiveClusterFive)
+    clustered_estimations.extend(naiveClusterOne)
+    clustered_estimations.extend(naiveClusterTwo)
+    clustered_estimations.extend(naiveClusterThree)
+    clustered_estimations.extend(naiveClusterFour)
+    clustered_estimations.extend(naiveClusterFive)
 
 
     #clustered_estimations = pd.concat([naiveClusterOne, naiveClusterTwo, naiveClusterThree, naiveClusterFour, naiveClusterFive])
@@ -137,20 +137,20 @@ if __name__ == "__main__":
 
     print("naive ", naive_estimations[0])
 
-    print("clustered ", naiveClusterOne[0])
+    #print("clustered ", naiveClusterOne[0])
 
-    #print("clustered ", clustered_estimations[0])
+    print("clustered ", clustered_estimations[0])
 
     print("Pre visualization1")
 
-    visualizer = Visualization()
-    naive_graph = visualizer.create_visualization(naive_estimations)
+    visualizer1 = Visualization()
+    naive_graph = visualizer1.create_visualization(naive_estimations)
     
     print("Finished visualization1")
 
     print("Pre visualization2")
-    visualizer = Visualization()
-    clustered_graph = visualizer.create_visualization(clustered_estimations)
+    visualizer2 = Visualization()
+    clustered_graph = visualizer2.create_visualization(clustered_estimations)
 
     print("Finished visualization2")
 

@@ -145,9 +145,9 @@ class Visualization:
         plt.plot(xBin, mse, color='r', label='Naive Estimator', marker='.')
 
         plt.legend(loc='upper right')
-        plt.ylabel('Mean Squared Error')
+        plt.ylabel('Mean Squared Error (hours squared)')
         plt.xlabel('Time spent (hours)')
         plt.title('MSE')
         plt.savefig('MSE.png')  # Saving plot in a .png in current directory
 
-plt.show()
+        plt.show()
