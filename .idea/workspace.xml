@@ -4,7 +4,7 @@
     <list default="true" id="a5fbc700-04d3-4a52-80e9-92cfc01cfd7b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainV3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainV3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities/FileWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/FileWriter.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainV3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="149" selection-start-line="148" selection-start-column="36" selection-end-line="149" />
+            <state relative-caret-position="729">
+              <caret line="157" column="102" selection-start-line="157" selection-start-column="102" selection-end-line="157" selection-end-column="102" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -26,20 +26,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utilities/FileWriter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="45" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
+            <state relative-caret-position="357">
+              <caret line="21" column="72" lean-forward="true" selection-start-line="21" selection-start-column="72" selection-end-line="21" selection-end-column="72" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Visualization.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="661">
-              <caret line="147" column="54" selection-start-line="147" selection-start-column="54" selection-end-line="147" selection-end-column="54" />
+            <state relative-caret-position="559">
+              <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -103,8 +103,9 @@
         <option value="$PROJECT_DIR$/Visualization.py" />
         <option value="$PROJECT_DIR$/estimators/Clustering.py" />
         <option value="$PROJECT_DIR$/estimators/NaiveModel.py" />
-        <option value="$PROJECT_DIR$/src/MainV3.py" />
         <option value="$PROJECT_DIR$/src/Visualization.py" />
+        <option value="$PROJECT_DIR$/src/MainV3.py" />
+        <option value="$PROJECT_DIR$/utilities/FileWriter.py" />
       </list>
     </option>
   </component>
@@ -151,7 +152,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ProcessMining" />
+    <property name="last_opened_file_path" value="D:/LabProjectCode/LabOnOffensive" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -191,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1552839759489</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed appending list bugs append changed to extend. Slightly updated visualization">
+      <created>1552844788379</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1552844788379</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -241,7 +249,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixed bug of minus values (again) fixed bugs with Clustering estimator. Still problem with visualizing clustering estimator" />
     <MESSAGE value="Print statements for bugfixing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Print statements for bugfixing" />
+    <MESSAGE value="Fixed appending list bugs append changed to extend. Slightly updated visualization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed appending list bugs append changed to extend. Slightly updated visualization" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md" />
@@ -289,13 +298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/FileWriter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="45" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/estimators/NaiveModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -303,23 +305,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Visualization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MainV3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="149" selection-start-line="148" selection-start-column="36" selection-end-line="149" />
+        <state relative-caret-position="729">
+          <caret line="157" column="102" selection-start-line="157" selection-start-column="102" selection-end-line="157" selection-end-column="102" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Visualization.py">
+    <entry file="file://$PROJECT_DIR$/utilities/FileWriter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="147" column="54" selection-start-line="147" selection-start-column="54" selection-end-line="147" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="357">
+          <caret line="21" column="72" lean-forward="true" selection-start-line="21" selection-start-column="72" selection-end-line="21" selection-end-column="72" />
         </state>
       </provider>
     </entry>

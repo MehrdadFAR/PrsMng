@@ -154,6 +154,5 @@ if __name__ == "__main__":
 
     print("Finished visualization2")
 
-
     a_file_writer = FileWriter(anEncoding)
-    outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations)
+    outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)
