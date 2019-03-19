@@ -10,7 +10,7 @@ import math
 
 class Visualization:
 
-    def create_visualization(self, estimations_list):
+    def create_scatter(self, estimations_list, name):
         # format estimations list:
         #         0: tst_event_case_concept_name,
         #         1: tst_event_event_timestamp,
@@ -22,9 +22,9 @@ class Visualization:
         # Transforming dictionaries to lists per key.
         x = [] # list of seconds passed since start of case per event
         y = [] # actual remaining time in case
-        naivePrediction = [] #predicted remaining time in case
+        prediction = [] #predicted remaining time in case
 
-        #The loop which computes the x, y and naivePrediction values per event
+        #The loop which computes the x, y and Prediction values per event
         for i in estimations_list:
 
             #Take the passed argument and store the needed attributes
@@ -42,25 +42,31 @@ class Visualization:
 
                 x.append(accTime)
                 y.append(remainTime)
-                naivePrediction.append(predictTime)
+                prediction.append(predictTime)
 
 
-        # Computation of first plot: scatter plot of estimated and real value for Naive Estimator.
+        # Computation of first plot: scatter plot of estimated and real value for Estimator.
         plt.scatter(x, y, color='b', label='real waiting time', s=1)
-        plt.scatter(x, naivePrediction, color='r', alpha=0.5, label='predicted waiting time', s=1)
+        plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted waiting time', s=1)
         plt.legend(loc='upper right')
         plt.xlabel('Time spent (hours)')
         plt.ylabel('Time left (hours)')
-        plt.title('Naive prediction waiting time')
+
+        #TODO: add name to title
+        plt.title(' waiting time')
+
         plt.savefig('Naive Estimator.png')  # Saving plot in a .png in current directory
         plt.show()
+        return x, y, prediction
 
 
         # Computing MSE for Naive Estimator
-        # meanSquared_naive = self.mse(y, naivePrediction)
+        # meanSquared_naive = self.mse(y, Prediction)
+
+    def create_mse(self, arg1, arg2, Prediction1, arg3, arg4, Prediction2):
 
         #The binning method. Makes sure the MSE graph means something visualy. Change num_of_bins if more bins are required.
-        def binning(x, y, naivePred, num_of_bins):
+        def binning(x, y, Pred, num_of_bins):
             binsize = (max(x) - min(x)) / (num_of_bins - 1)
             binsX = []
             binsY = []
@@ -73,12 +79,12 @@ class Visualization:
                 binsNaive.append([])
 
 
-            #adds all elements in x,y, naivePred to their respective bins
+            #adds all elements in x,y, Pred to their respective bins
             index = 0
-            for i in x:
-                binsX[int((i - min(x)) / binsize)].append(i)
-                binsY[int((i - min(x)) / binsize)].append(y[index])
-                binsNaive[int((i - min(x)) / binsize)].append(naivePred[index])
+            for a in x:
+                binsX[int((a - min(x)) / binsize)].append(a)
+                binsY[int((a - min(x)) / binsize)].append(y[index])
+                binsNaive[int((a - min(x)) / binsize)].append(Pred[index])
 
                 index += 1
 
@@ -124,25 +130,35 @@ class Visualization:
             return binsX, binsY, binsNaive
 
         #Calls the binning function
-        tempBins = binning(x, y, naivePrediction, 21)
+        tempBinsNaive = binning(arg1, arg2, Prediction1, 21)
+        tempBinsCluster = binning(arg3, arg4, Prediction2, 21)
 
-        xBin = tempBins[0]
-        yBin = tempBins[1]
-        naiveBin = tempBins[2]
+        xBinNaive = tempBinsNaive[0]
+        yBinNaive = tempBinsNaive[1]
+        naiveBin = tempBinsNaive[2]
+
+        xBinCluster = tempBinsCluster[0]
+        yBinCluster = tempBinsCluster[1]
+        clusterBin = tempBinsCluster[2]
 
 
         #Fills the MSE
-        mse = []
-        for i in range(0, len(yBin)):
-            mse.append((yBin[i] - naiveBin[i]) ** 2)
+        mseNaive = []
+        for i in range(0, len(yBinNaive)):
+            mseNaive.append((yBinNaive[i] - naiveBin[i]) ** 2)
+
+        mseCluster = []
+        for i in range(0, len(yBinCluster)):
+            mseCluster.append((yBinCluster[i] - clusterBin[i]) ** 2)
 
 
-        print(xBin)
-        print(mse)
+        print(xBinNaive)
+        print(mseNaive)
 
 
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-        plt.plot(xBin, mse, color='r', label='Naive Estimator', marker='.')
+        plt.plot(xBinNaive, mseNaive, color='r', label='Naive Estimator', marker='.')
+        plt.plot(xBinCluster, mseCluster, color='g', label='Naive Estimator', marker='.')
 
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error (hours squared)')

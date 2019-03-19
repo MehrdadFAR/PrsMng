@@ -141,18 +141,21 @@ if __name__ == "__main__":
 
     print("clustered ", clustered_estimations[0])
 
-    print("Pre visualization1")
+    visualizer = Visualization()
 
-    visualizer1 = Visualization()
-    naive_graph = visualizer1.create_visualization(naive_estimations)
-    
+    print("Pre visualization1")
+    plotName = "Naive prediction"
+    naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName)
     print("Finished visualization1")
 
     print("Pre visualization2")
-    visualizer2 = Visualization()
-    clustered_graph = visualizer2.create_visualization(clustered_estimations)
-
+    plotName = "Clustered prediction"
+    clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName)
     print("Finished visualization2")
+
+    print("Pre visualization3")
+    naive_graph_mse = visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2], clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
+    print("Finished visualization3")
 
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)
