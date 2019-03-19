@@ -46,14 +46,12 @@ class Visualization:
 
 
         # Computation of first plot: scatter plot of estimated and real value for Estimator.
-        plt.scatter(x, y, color='b', label='real waiting time', s=1)
-        plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted waiting time', s=1)
+        plt.scatter(x, y, color='b', label='real remaining time', s=1)
+        plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
         plt.legend(loc='upper right')
         plt.xlabel('Time spent (hours)')
         plt.ylabel('Time left (hours)')
-
-        #TODO: add name to title
-        plt.title(' waiting time')
+        plt.title(str(name) + ' remaining time')
 
         plt.savefig('Naive Estimator.png')  # Saving plot in a .png in current directory
         plt.show()
