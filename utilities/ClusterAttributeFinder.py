@@ -1,9 +1,7 @@
 class ClusterAttributeFinder:
-    def __init__(self, trainingAddress):
+    def __init__(self):
         self.cluster_attribute = None
-        self.clusterAttributeDefiner(trainingAddress)
-        self.get_a_cluster_attribute_finder()
-        print("cluster attributes are: ", self.get_a_cluster_attribute_finder)
+
     def clusterAttributeDefiner(self, trainingAddress):
         if "dummy" in trainingAddress:
             self.cluster_attribute = None
@@ -20,5 +18,5 @@ class ClusterAttributeFinder:
         if self.cluster_attribute == None:
             raise Exception("Cluster attribute is not determined")
 
-    def get_a_cluster_attribute_finder(self):
+    def getClusterAttribute(self):
         return self.cluster_attribute

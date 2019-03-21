@@ -93,7 +93,9 @@ if __name__ == "__main__":
     '''
     Alter datatypes to integer cluster attributes
     '''
-    a_cluster_attribute_finder = ClusterAttributeFinder(trainingAddress)
+    clusterAttributeFinderInstance = ClusterAttributeFinder()
+    clusterAttributeFinderInstance.clusterAttributeDefiner(trainingAddress)
+    a_cluster_attribute_finder = clusterAttributeFinderInstance.getClusterAttribute()
 
     print('a_cluster_attribute_finder: ', a_cluster_attribute_finder)
     df_Training_copy2[a_cluster_attribute_finder].fillna(-1).astype(int)
