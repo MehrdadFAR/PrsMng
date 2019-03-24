@@ -13,7 +13,7 @@ class FileFinishFinder:
             self.finishing_event_list = ["A_CANCELLED", "A_ACTIVATED", "A_DECLINED", "W_Valideren aanvraag"]
             # not yet checking if the aanvraag is finished !!!!!!!!
         elif "BPI_2017" in trainingAddress:
-            self.finishing_event_list = None
+            self.finishing_event_list = ["W_Call after offers", "W_Validate application", "A_Pending", "W_Call incomplete files"]
         elif "BPI_2018" in trainingAddress:
             self.finishing_event_list = ['case rejected', "case basic payment"]
         elif "italian" in trainingAddress:
