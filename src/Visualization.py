@@ -44,7 +44,6 @@ class Visualization:
                 y.append(remainTime)
                 prediction.append(predictTime)
 
-
         # Computation of first plot: scatter plot of estimated and real value for Estimator.
         plt.scatter(x, y, color='b', label='real remaining time', s=1)
         plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
@@ -53,7 +52,8 @@ class Visualization:
         plt.ylabel('Time left (hours)')
         plt.title(str(name) + ' remaining time')
 
-        plt.savefig('Naive Estimator.png')  # Saving plot in a .png in current directory
+        outputName = str(name) + '.png'
+        plt.savefig(outputName)  # Saving plot in a .png in current directory
         plt.show()
         return x, y, prediction
 
@@ -86,14 +86,6 @@ class Visualization:
 
                 index += 1
 
-            #print("First bin x:", len(binsX[0]))
-            #print("First bin y:", len(binsY[0]))
-            #print("First bin naive:", len(binsNaive[0]))
-
-            #print("2 bin x:", len(binsX[1]))
-            #print("2 bin y:", len(binsY[1]))
-            #print("2 bin naive:", len(binsNaive[1]))
-
             #Computes the mean of every x bin
             counter = 0
             for j in binsX:
@@ -102,7 +94,7 @@ class Visualization:
                 if math.isnan(binsX[counter]):
                     binsX[counter] = 0
 
-                binsX[counter] = int(binsX[counter])
+                #binsX[counter] = int(binsX[counter])
                 counter += 1
 
             # Computes the mean of every y bin
@@ -112,7 +104,7 @@ class Visualization:
 
                 if math.isnan(binsY[counter]):
                     binsY[counter] = 0
-                binsY[counter] = int(binsY[counter])
+                #binsY[counter] = int(binsY[counter])
                 counter += 1
 
             # Computes the mean of every naive bin
@@ -122,7 +114,7 @@ class Visualization:
 
                 if math.isnan(binsNaive[counter]):
                     binsNaive[counter] = 0
-                binsNaive[counter] = int(binsNaive[counter])
+                #binsNaive[counter] = int(binsNaive[counter])
                 counter += 1
 
             return binsX, binsY, binsNaive
@@ -135,28 +127,32 @@ class Visualization:
         yBinNaive = tempBinsNaive[1]
         naiveBin = tempBinsNaive[2]
 
+
         xBinCluster = tempBinsCluster[0]
         yBinCluster = tempBinsCluster[1]
         clusterBin = tempBinsCluster[2]
 
 
-        #Fills the MSE
+        #Fills the MSE with naive estimator
         mseNaive = []
         for i in range(0, len(yBinNaive)):
             mseNaive.append((yBinNaive[i] - naiveBin[i]) ** 2)
+
+        #Fills the MSE with the clustered estimator
 
         mseCluster = []
         for i in range(0, len(yBinCluster)):
             mseCluster.append((yBinCluster[i] - clusterBin[i]) ** 2)
 
 
-        print(xBinNaive)
-        print(mseNaive)
+        #For testing purpose printing, should be removed later
+        print("xbin ", xBinNaive)
+        print("Mse ", mseNaive)
 
 
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
         plt.plot(xBinNaive, mseNaive, color='r', label='Naive Estimator', marker='.')
-        plt.plot(xBinCluster, mseCluster, color='g', label='Naive Estimator', marker='.')
+        plt.plot(xBinCluster, mseCluster, color='g', label='Clustered Estimator', marker='.')
 
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error (hours squared)')

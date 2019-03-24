@@ -105,16 +105,17 @@ if __name__ == "__main__":
     naiveClassFour = NaiveModel()
     naiveClusterFour = naiveClassFour.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder, trainingAddress)
 
+    '''
     naiveClassFive = NaiveModel()
     naiveClusterFive = naiveClassFive.calc_naive_estimate(clustersTraining[4], clustersTest[4], a_file_finish_finder, trainingAddress)
-
+    '''
 
     clustered_estimations = []
     clustered_estimations.extend(naiveClusterOne)
     clustered_estimations.extend(naiveClusterTwo)
     clustered_estimations.extend(naiveClusterThree)
     clustered_estimations.extend(naiveClusterFour)
-    clustered_estimations.extend(naiveClusterFive)
+    #clustered_estimations.extend(naiveClusterFive)
 
 
     #clustered_estimations = pd.concat([naiveClusterOne, naiveClusterTwo, naiveClusterThree, naiveClusterFour, naiveClusterFive])
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     print("2 ", len(naiveClusterTwo))
     print("3 ", len(naiveClusterThree))
     print("4 ", len(naiveClusterFour))
-    print("5 ", len(naiveClusterFive))
+    #print("5 ", len(naiveClusterFive))
 
 
     #update filewriter to write column clustered estimator
@@ -141,21 +142,27 @@ if __name__ == "__main__":
 
     print("clustered ", clustered_estimations[0])
 
+
+    #start of visualization
     visualizer = Visualization()
 
+    #Shows the scatter plot for the naive estimator
     print("Pre visualization1")
     plotName = "Naive prediction"
     naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName)
     print("Finished visualization1")
 
+    #Shows the scatter plot for the clustered estimator
     print("Pre visualization2")
     plotName = "Clustered prediction"
     clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName)
     print("Finished visualization2")
 
+    #prints the MSE diagrams
     print("Pre visualization3")
     naive_graph_mse = visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2], clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
     print("Finished visualization3")
 
+    #Writes the estimators to the output file
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)
