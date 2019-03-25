@@ -89,6 +89,7 @@ if __name__ == "__main__":
     t1 = time.time()
     # naive_estimations is a list of dictionaries. Mutable,  do not change values.  Not
     # copied for memory saving purposes.
+
     naive_estimations = naive_model.calc_naive_estimate(df_Training_copied, df_Test_copied, a_file_finish_finder,
                                                         trainingAddress)
     t2 = time.time()
@@ -161,13 +162,13 @@ if __name__ == "__main__":
 
     #Shows the scatter plot for the naive estimator
     print("Pre visualization1")
-    plotName = "Naive prediction"
+    plotName = "Naive Prediction"
     naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName)
     print("Finished visualization1")
 
     #Shows the scatter plot for the clustered estimator
     print("Pre visualization2")
-    plotName = "Clustered prediction"
+    plotName = "Clustered Prediction"
     clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName)
     print("Finished visualization2")
 
