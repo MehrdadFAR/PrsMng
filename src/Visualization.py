@@ -89,7 +89,7 @@ class Visualization:
             #Computes the mean of every x bin
             counter = 0
             for j in binsX:
-                binsX[counter] = np.mean(j)
+                binsX[counter] = np.nanmean(j)
 
                 if math.isnan(binsX[counter]):
                     binsX[counter] = 0
@@ -100,7 +100,7 @@ class Visualization:
             # Computes the mean of every y bin
             counter = 0
             for k in binsY:
-                binsY[counter] = np.mean(k)
+                binsY[counter] = np.nanmean(k)
 
                 if math.isnan(binsY[counter]):
                     binsY[counter] = 0
@@ -110,7 +110,7 @@ class Visualization:
             # Computes the mean of every naive bin
             counter = 0
             for l in binsNaive:
-                binsNaive[counter] = np.mean(l)
+                binsNaive[counter] = np.nanmean(l)
 
                 if math.isnan(binsNaive[counter]):
                     binsNaive[counter] = 0
@@ -146,8 +146,8 @@ class Visualization:
 
 
         #For testing purpose printing, should be removed later
-        print("xbin ", xBinNaive)
-        print("Mse ", mseNaive)
+        #print("xbin ", xBinNaive)
+        #print("Mse ", mseNaive)
 
 
         # Plot MSE Naive estimator to time spent. Other estimators are commented for now.

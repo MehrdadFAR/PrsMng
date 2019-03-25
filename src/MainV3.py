@@ -18,6 +18,7 @@ from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
 from Visualization import Visualization
 from estimators.Clustering import Clustering
+from utilities.PreprocessingData import PreprocessingData
 
 if __name__ == "__main__":
 
@@ -56,6 +57,18 @@ if __name__ == "__main__":
     print('after the time conversion of test')
     # monitoring time required to read the files:
     print("time _ read test file: " + str("%.0f" % (time.time() - t1)) + "  sec")
+
+    preprocessing_data_instance = PreprocessingData()
+    if "BPI_2012" in trainingAddress:
+        df_Training1 = preprocessing_data_instance.createNewColumn2012(df_Training)
+        df_Test1 = preprocessing_data_instance.createNewColumn2012(df_Test)
+        df_Training = df_Training1
+        df_Test = df_Test1
+    else:
+        df_Training1 = preprocessing_data_instance.createNewColumn(df_Training)
+        df_Test1 = preprocessing_data_instance.createNewColumn(df_Test)
+        df_Training = df_Training1
+        df_Test = df_Test1
 
 
     '''
