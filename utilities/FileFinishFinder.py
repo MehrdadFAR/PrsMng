@@ -10,7 +10,7 @@ class FileFinishFinder:
         if "dummy" in trainingAddress:
             self.finishing_event_list = ['e3', 'e4']
         elif "BPI_2012" in trainingAddress:
-            self.finishing_event_list = ["A_CANCELLED", "A_ACTIVATED", "A_DECLINED", "W_Valideren aanvraag"]
+            self.finishing_event_list = ["A_CANCELLED COMPLETE", "A_CANCELLED SCHEDULE", "A_CANCELLED START", "A_ACTIVATED COMPLETE", "A_ACTIVATED SCHEDULE", "A_ACTIVATED START", "W_Valideren aanvraag COMPLETE"]
             # not yet checking if the aanvraag is finished !!!!!!!!
         elif "BPI_2017" in trainingAddress:
             self.finishing_event_list = ["W_Call after offers", "W_Validate application", "A_Pending", "W_Call incomplete files"]
