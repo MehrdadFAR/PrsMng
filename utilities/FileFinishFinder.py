@@ -7,8 +7,8 @@ class FileFinishFinder:
         print('the finishing event names:', self.get_finishing_event_list())
 
     def determine_FinishEvents(self, trainingAddress):
-        if "dummy" in trainingAddress:
-            self.finishing_event_list = ['e3', 'e4']
+        if "Dummy" in trainingAddress:
+            self.finishing_event_list = ['Klaar']
         elif "BPI_2012" in trainingAddress:
             self.finishing_event_list = ["A_CANCELLED COMPLETE", "A_CANCELLED SCHEDULE", "A_CANCELLED START", "A_ACTIVATED COMPLETE", "A_ACTIVATED SCHEDULE", "A_ACTIVATED START", "W_Valideren aanvraag COMPLETE"]
             # not yet checking if the aanvraag is finished !!!!!!!!

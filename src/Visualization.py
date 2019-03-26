@@ -30,15 +30,15 @@ class Visualization:
             #Take the passed argument and store the needed attributes
             eventTime = i[1]
             startTime = i[2]
-            predictTime = i[4]/3600
+            predictTime = i[4]/(3600*24)
             endTime = i[5]
 
             #Compute the time that has passed from the beginning of the case till the current event
-            accTime = (eventTime - startTime).total_seconds()/3600
+            accTime = (eventTime - startTime).total_seconds()/(3600*24)
 
             #Makes sure the event is only visualized if there exists an finishing event
             if endTime != None:
-                remainTime = max(0,(endTime - eventTime).total_seconds()/3600)
+                remainTime = max(0,(endTime - eventTime).total_seconds()/(3600*24))
 
                 x.append(accTime)
                 y.append(remainTime)
@@ -48,8 +48,8 @@ class Visualization:
         plt.scatter(x, y, color='b', label='real remaining time', s=1)
         plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
         plt.legend(loc='upper right')
-        plt.xlabel('Time spent (hours)')
-        plt.ylabel('Time left (hours)')
+        plt.xlabel('Time spent (Days)')
+        plt.ylabel('Time left (Days)')
         plt.title(str(name) + ' remaining time')
 
         outputName = str(name) + '.png'
@@ -155,8 +155,8 @@ class Visualization:
         plt.plot(xBinCluster, mseCluster, color='g', label='Clustered Estimator', marker='.')
 
         plt.legend(loc='upper right')
-        plt.ylabel('Mean Squared Error (hours squared)')
-        plt.xlabel('Time spent (hours)')
+        plt.ylabel('Mean Squared Error (Days squared)')
+        plt.xlabel('Time spent (Days)')
         plt.title('MSE')
         plt.savefig('MSE.png')  # Saving plot in a .png in current directory
 

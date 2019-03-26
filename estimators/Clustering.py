@@ -12,8 +12,8 @@ class Clustering:
         pass
 
     def clusterData(self, trainingAddress, df):
-        if "dummy" in trainingAddress:
-            self.cluster_attribute = ["eventID "]
+        if "Dummy" in trainingAddress:
+            self.cluster_attribute = ["something"]
         elif "BPI_2012" in trainingAddress:
             self.cluster_attribute = ["case AMOUNT_REQ"]
             # Amount of money requested for a loan.
