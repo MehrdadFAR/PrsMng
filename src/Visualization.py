@@ -91,9 +91,12 @@ class Visualization:
             for j in binsX:
                 binsX[counter] = np.nanmean(j)
 
+                '''
                 if math.isnan(binsX[counter]):
-                    binsX[counter] = 0
-
+                    print("binsx ", binsX[counter])
+                    del binsX[counter]
+                    print("deleted")
+                '''
                 #binsX[counter] = int(binsX[counter])
                 counter += 1
 
@@ -102,9 +105,11 @@ class Visualization:
             for k in binsY:
                 binsY[counter] = np.nanmean(k)
 
+                '''
                 if math.isnan(binsY[counter]):
-                    binsY[counter] = 0
+                    del binsY[counter]
                 #binsY[counter] = int(binsY[counter])
+                '''
                 counter += 1
 
             # Computes the mean of every naive bin
@@ -112,21 +117,41 @@ class Visualization:
             for l in binsNaive:
                 binsNaive[counter] = np.nanmean(l)
 
+                '''
                 if math.isnan(binsNaive[counter]):
-                    binsNaive[counter] = 0
+                    del binsNaive[counter]
                 #binsNaive[counter] = int(binsNaive[counter])
+                '''
                 counter += 1
 
-            return binsX, binsY, binsNaive
+            xList = []
+            for n in binsX:
+                if not math.isnan(n):
+                    xList.append(n)
+
+            yList = []
+            for m in binsY:
+                if not math.isnan(m):
+                    yList.append(m)
+
+            estList = []
+            for o in binsNaive:
+                if not math.isnan(o):
+                    estList.append(o)
+
+            return xList, yList, estList
 
         #Calls the binning function
-        tempBinsNaive = binning(arg1, arg2, Prediction1, 21)
-        tempBinsCluster = binning(arg3, arg4, Prediction2, 21)
+        tempBinsNaive = binning(arg1, arg2, Prediction1, 51)
+        tempBinsCluster = binning(arg3, arg4, Prediction2, 51)
 
         xBinNaive = tempBinsNaive[0]
         yBinNaive = tempBinsNaive[1]
         naiveBin = tempBinsNaive[2]
 
+        #print("yBinNaive ", yBinNaive)
+        #print("xBinNaive ", xBinNaive)
+        #print("naiveBin ", naiveBin)
 
         xBinCluster = tempBinsCluster[0]
         yBinCluster = tempBinsCluster[1]
