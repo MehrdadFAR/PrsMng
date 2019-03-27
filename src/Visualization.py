@@ -10,7 +10,7 @@ import math
 
 class Visualization:
 
-    def create_scatter(self, estimations_list, name):
+    def create_scatter(self, estimations_list, name, trainingAddress):
         # format estimations list:
         #         0: tst_event_case_concept_name,
         #         1: tst_event_event_timestamp,
@@ -23,6 +23,11 @@ class Visualization:
         x = [] # list of seconds passed since start of case per event
         y = [] # actual remaining time in case
         prediction = [] #predicted remaining time in case
+
+        #additional lists for 2019 file
+        x2 = []  # list of seconds passed since start of case per event
+        y2 = []  # actual remaining time in case
+        prediction2 = []  # predicted remaining time in case
 
         #The loop which computes the x, y and Prediction values per event
         for i in estimations_list:
@@ -40,10 +45,21 @@ class Visualization:
             if endTime != None:
                 remainTime = max(0,(endTime - eventTime).total_seconds()/(3600*24))
 
-                x.append(accTime)
-                y.append(remainTime)
-                prediction.append(predictTime)
+                if "BPI_2019" in trainingAddress:
+                    if accTime < 3000:
+                        x.append(accTime)
+                        y.append(remainTime)
+                        prediction.append(predictTime)
+                    else:
+                        x2.append(accTime)
+                        y2.append(remainTime)
+                        prediction2.append(predictTime)
+                else:
+                    x.append(accTime)
+                    y.append(remainTime)
+                    prediction.append(predictTime)
 
+        nameCounter = 1
         # Computation of first plot: scatter plot of estimated and real value for Estimator.
         plt.scatter(x, y, color='b', label='real remaining time', s=1)
         plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
@@ -52,16 +68,39 @@ class Visualization:
         plt.ylabel('Time left (Days)')
         plt.title(str(name) + ' remaining time')
 
-        outputName = str(name) + '.png'
+        outputName = str(name) + str(nameCounter) + '.png'
         plt.savefig(outputName)  # Saving plot in a .png in current directory
-        plt.show()
-        return x, y, prediction
+        plt.clf()
+        plt.cla()
+        plt.close()
+        #plt.show()
+
+        if "BPI_2019" in trainingAddress:
+            nameCounter = 2
+            plt.scatter(x2, y2, color='b', label='real remaining time', s=1)
+            plt.scatter(x2, prediction2, color='r', alpha=0.5, label='predicted remaining time', s=1)
+            plt.legend(loc='upper right')
+            plt.xlabel('Time spent (Days)')
+            plt.ylabel('Time left (Days)')
+            plt.title(str(name) + ' remaining time')
+
+            outputName = str(name) + str(nameCounter) + '.png'
+            plt.savefig(outputName)  # Saving plot in a .png in current directory
+            plt.clf()
+            plt.cla()
+            plt.close()
+            #plt.show()
+
+        if "BPI_2019" in trainingAddress:
+            return x, y, prediction, x2, y2, p
+        else:
+            return x, y, prediction
 
 
         # Computing MSE for Naive Estimator
         # meanSquared_naive = self.mse(y, Prediction)
 
-    def create_mse(self, arg1, arg2, Prediction1, arg3, arg4, Prediction2):
+    def create_mse(self, arg1, arg2, Prediction1, arg3, arg4, Prediction2, name):
 
         #The binning method. Makes sure the MSE graph means something visualy. Change num_of_bins if more bins are required.
         def binning(x, y, Pred, num_of_bins):
@@ -182,7 +221,10 @@ class Visualization:
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error (Days squared)')
         plt.xlabel('Time spent (Days)')
-        plt.title('MSE')
-        plt.savefig('MSE.png')  # Saving plot in a .png in current directory
+        plt.title(name)
+        plt.savefig(name + '.png')  # Saving plot in a .png in current directory
+        plt.clf()
+        plt.cla()
+        plt.close()
 
-        plt.show()
+        #plt.show()
