@@ -1,14 +1,13 @@
 from matplotlib import pyplot as plt
-# import pandas as pd
 import numpy as np
-import datetime
 import math
-
 
 # Data input:
 # List of dictionaries with keys 'timeSpent', 'timeLeft' and 'predLeft'.
 
+
 class Visualization:
+    colorCounter = 1
 
     def create_scatter(self, estimations_list, name, trainingAddress):
         # format estimations list:
@@ -20,30 +19,30 @@ class Visualization:
         #         5: actual_finish_stamp (or None)]
 
         # Transforming dictionaries to lists per key.
-        x = [] # list of seconds passed since start of case per event
-        y = [] # actual remaining time in case
-        prediction = [] #predicted remaining time in case
+        x = []  # list of seconds passed since start of case per event
+        y = []  # actual remaining time in case
+        prediction = []  # predicted remaining time in case
 
-        #additional lists for 2019 file
+        # additional lists for 2019 file
         x2 = []  # list of seconds passed since start of case per event
         y2 = []  # actual remaining time in case
         prediction2 = []  # predicted remaining time in case
 
-        #The loop which computes the x, y and Prediction values per event
+        # The loop which computes the x, y and Prediction values per event
         for i in estimations_list:
 
-            #Take the passed argument and store the needed attributes
+            # Take the passed argument and store the needed attributes
             eventTime = i[1]
             startTime = i[2]
-            predictTime = i[4]/(3600*24)
+            predictTime = i[4] / (3600 * 24)
             endTime = i[5]
 
-            #Compute the time that has passed from the beginning of the case till the current event
-            accTime = (eventTime - startTime).total_seconds()/(3600*24)
+            # Compute the time that has passed from the beginning of the case till the current event
+            accTime = (eventTime - startTime).total_seconds() / (3600 * 24)
 
-            #Makes sure the event is only visualized if there exists an finishing event
+            # Makes sure the event is only visualized if there exists an finishing event
             if endTime != None:
-                remainTime = max(0,(endTime - eventTime).total_seconds()/(3600*24))
+                remainTime = max(0, (endTime - eventTime).total_seconds() / (3600 * 24))
 
                 if "BPI_2019" in trainingAddress:
                     if accTime < 3000:
@@ -73,7 +72,7 @@ class Visualization:
         plt.clf()
         plt.cla()
         plt.close()
-        #plt.show()
+        # plt.show()
 
         if "BPI_2019" in trainingAddress:
             nameCounter = 2
@@ -89,43 +88,41 @@ class Visualization:
             plt.clf()
             plt.cla()
             plt.close()
-            #plt.show()
+            # plt.show()
 
         if "BPI_2019" in trainingAddress:
-            return x, y, prediction, x2, y2, p
+            return x, y, prediction, x2, y2, prediction2
         else:
             return x, y, prediction
-
 
         # Computing MSE for Naive Estimator
         # meanSquared_naive = self.mse(y, Prediction)
 
-    def create_mse(self, arg1, arg2, Prediction1, arg3, arg4, Prediction2, name):
+    def create_mse(self, arg1, arg2, Prediction1):
 
-        #The binning method. Makes sure the MSE graph means something visualy. Change num_of_bins if more bins are required.
+        # The binning method. Makes sure the MSE graph means something visually. Change num_of_bins if more bins are required.
         def binning(x, y, Pred, num_of_bins):
             binsize = (max(x) - min(x)) / (num_of_bins - 1)
             binsX = []
             binsY = []
-            binsNaive = []
+            binsPred = []
 
-            #Initializes all bins to be empty
+            # Initializes all bins to be empty
             for i in range(0, num_of_bins):
                 binsX.append([])
                 binsY.append([])
-                binsNaive.append([])
+                binsPred.append([])
 
-
-            #adds all elements in x,y, Pred to their respective bins
+            # adds all elements in x,y, Pred to their respective bins
             index = 0
             for a in x:
                 binsX[int((a - min(x)) / binsize)].append(a)
                 binsY[int((a - min(x)) / binsize)].append(y[index])
-                binsNaive[int((a - min(x)) / binsize)].append(Pred[index])
+                binsPred[int((a - min(x)) / binsize)].append(Pred[index])
 
                 index += 1
 
-            #Computes the mean of every x bin
+            # Computes the mean of every x bin
             counter = 0
             for j in binsX:
                 binsX[counter] = np.nanmean(j)
@@ -136,7 +133,7 @@ class Visualization:
                     del binsX[counter]
                     print("deleted")
                 '''
-                #binsX[counter] = int(binsX[counter])
+                # binsX[counter] = int(binsX[counter])
                 counter += 1
 
             # Computes the mean of every y bin
@@ -153,13 +150,13 @@ class Visualization:
 
             # Computes the mean of every naive bin
             counter = 0
-            for l in binsNaive:
-                binsNaive[counter] = np.nanmean(l)
+            for l in binsPred:
+                binsPred[counter] = np.nanmean(l)
 
                 '''
-                if math.isnan(binsNaive[counter]):
-                    del binsNaive[counter]
-                #binsNaive[counter] = int(binsNaive[counter])
+                if math.isnan(binsPred[counter]):
+                    del binsPred[counter]
+                #binsPred[counter] = int(binsPred[counter])
                 '''
                 counter += 1
 
@@ -174,50 +171,67 @@ class Visualization:
                     yList.append(m)
 
             estList = []
-            for o in binsNaive:
+            for o in binsPred:
                 if not math.isnan(o):
                     estList.append(o)
 
             return xList, yList, estList
 
-        #Calls the binning function
-        tempBinsNaive = binning(arg1, arg2, Prediction1, 51)
-        tempBinsCluster = binning(arg3, arg4, Prediction2, 51)
+        # Calls the binning function
+        tempBins = binning(arg1, arg2, Prediction1, 51)
+        # tempBinsCluster = binning(arg3, arg4, Prediction2, 51)
 
-        xBinNaive = tempBinsNaive[0]
-        yBinNaive = tempBinsNaive[1]
-        naiveBin = tempBinsNaive[2]
+        xBin = tempBins[0]
+        yBin = tempBins[1]
+        predBin = tempBins[2]
 
-        #print("yBinNaive ", yBinNaive)
-        #print("xBinNaive ", xBinNaive)
-        #print("naiveBin ", naiveBin)
+        # print("yBinNaive ", yBinNaive)
+        # print("xBinNaive ", xBinNaive)
+        # print("naiveBin ", naiveBin)
 
-        xBinCluster = tempBinsCluster[0]
-        yBinCluster = tempBinsCluster[1]
-        clusterBin = tempBinsCluster[2]
+        # xBinCluster = tempBinsCluster[0]
+        # yBinCluster = tempBinsCluster[1]
+        # clusterBin = tempBinsCluster[2]
 
+        # Fills the MSE with naive estimator
+        mse = []
+        for i in range(0, len(yBin)):
+            mse.append((yBin[i] - predBin[i]) ** 2)
 
-        #Fills the MSE with naive estimator
-        mseNaive = []
-        for i in range(0, len(yBinNaive)):
-            mseNaive.append((yBinNaive[i] - naiveBin[i]) ** 2)
+        colorName = None
 
-        #Fills the MSE with the clustered estimator
+        if self.colorCounter == 1:
+            colorName = 'r'
+            self.colorCounter += 1
+        elif self.colorCounter == 2:
+            colorName = 'g'
+            self.colorCounter += 1
+        elif self.colorCounter == 3:
+            colorName = 'b'
+            self.colorCounter += 1
+        else:
+            colorName = 'y'
 
-        mseCluster = []
-        for i in range(0, len(yBinCluster)):
-            mseCluster.append((yBinCluster[i] - clusterBin[i]) ** 2)
+        plt.plot(xBin, mse, color=colorName, label='Naive Estimator', marker='.')
 
+    '''
+    # Fills the MSE with the clustered estimator
 
-        #For testing purpose printing, should be removed later
-        #print("xbin ", xBinNaive)
-        #print("Mse ", mseNaive)
+     mseCluster = []
+     for i in range(0, len(yBinCluster)):
+         mseCluster.append((yBinCluster[i] - clusterBin[i]) ** 2)
 
+     # For testing purpose printing, should be removed later
+     # print("xbin ", xBinNaive)
+     # print("Mse ", mseNaive)
 
-        # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-        plt.plot(xBinNaive, mseNaive, color='r', label='Naive Estimator', marker='.')
-        plt.plot(xBinCluster, mseCluster, color='g', label='Clustered Estimator', marker='.')
+     # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
+     
+     plt.plot(xBinCluster, mseCluster, color='g', label='Clustered Estimator', marker='.')
 
+     '''
+
+    def finishMSE(self, name):
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error (Days squared)')
         plt.xlabel('Time spent (Days)')
@@ -226,5 +240,3 @@ class Visualization:
         plt.clf()
         plt.cla()
         plt.close()
-
-        #plt.show()

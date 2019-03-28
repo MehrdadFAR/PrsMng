@@ -16,7 +16,7 @@ from utilities.FileReader import FileReader
 from utilities.FileWriter import FileWriter
 from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
-from Visualization import Visualization
+from utilities.Visualization import Visualization
 from estimators.Clustering import Clustering
 from utilities.PreprocessingData import PreprocessingData
 
@@ -30,7 +30,6 @@ if __name__ == "__main__":
     AP = ArgumentProcessor()
     trainingAddress, testAddress, outputName, anEncoding = AP.processArgs(arguments)
 
-
     '''
     an object of FileFinishFinder, which is used to find finish event names.
     '''
@@ -43,16 +42,18 @@ if __name__ == "__main__":
     a_file_reader = FileReader(anEncoding)
     t1 = time.time()
     df_Training = a_file_reader.readFile(trainingAddress)
-    df_Training['event time:timestamp'] = pd.to_datetime(df_Training['event time:timestamp'], dayfirst=True, infer_datetime_format=True)
-    #debugging
+    df_Training['event time:timestamp'] = pd.to_datetime(df_Training['event time:timestamp'], dayfirst=True,
+                                                         infer_datetime_format=True)
+    # debugging
     print('after the time conversion of training')
     # monitoring time required to read the files:
-    print("time _ read training file: "+ str("%.0f" % (time.time() - t1)) + "  sec")
+    print("time _ read training file: " + str("%.0f" % (time.time() - t1)) + "  sec")
     print("memory usage of training DF (in MegaBytes): ", MemoryUsage.memory_usage_sum(
         df_Training))
     t1 = time.time()
     df_Test = a_file_reader.readFile(testAddress)
-    df_Test['event time:timestamp'] = pd.to_datetime(df_Test['event time:timestamp'], dayfirst=True, infer_datetime_format=True)
+    df_Test['event time:timestamp'] = pd.to_datetime(df_Test['event time:timestamp'], dayfirst=True,
+                                                     infer_datetime_format=True)
     # debugging
     print('after the time conversion of test')
     # monitoring time required to read the files:
@@ -69,7 +70,6 @@ if __name__ == "__main__":
         df_Test1 = preprocessing_data_instance.createNewColumn(df_Test)
         df_Training = df_Training1
         df_Test = df_Test1
-
 
     '''
     Train naive estimator
@@ -95,7 +95,6 @@ if __name__ == "__main__":
     t2 = time.time()
     print("Time _ calculating naive_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
 
-
     '''
     Train cluster estimator
     '''
@@ -108,16 +107,20 @@ if __name__ == "__main__":
     clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_copy2)
 
     naiveClassOne = NaiveModel()
-    naiveClusterOne = naiveClassOne.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder, trainingAddress)
+    naiveClusterOne = naiveClassOne.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder,
+                                                        trainingAddress)
 
     naiveClassTwo = NaiveModel()
-    naiveClusterTwo = naiveClassTwo.calc_naive_estimate(clustersTraining[1], clustersTest[1], a_file_finish_finder, trainingAddress)
+    naiveClusterTwo = naiveClassTwo.calc_naive_estimate(clustersTraining[1], clustersTest[1], a_file_finish_finder,
+                                                        trainingAddress)
 
     naiveClassThree = NaiveModel()
-    naiveClusterThree = naiveClassThree.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder, trainingAddress)
+    naiveClusterThree = naiveClassThree.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder,
+                                                            trainingAddress)
 
     naiveClassFour = NaiveModel()
-    naiveClusterFour = naiveClassFour.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder, trainingAddress)
+    naiveClusterFour = naiveClassFour.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder,
+                                                          trainingAddress)
 
     '''
     naiveClassFive = NaiveModel()
@@ -129,19 +132,17 @@ if __name__ == "__main__":
     clustered_estimations.extend(naiveClusterTwo)
     clustered_estimations.extend(naiveClusterThree)
     clustered_estimations.extend(naiveClusterFour)
-    #clustered_estimations.extend(naiveClusterFive)
+    # clustered_estimations.extend(naiveClusterFive)
 
-
-    #clustered_estimations = pd.concat([naiveClusterOne, naiveClusterTwo, naiveClusterThree, naiveClusterFour, naiveClusterFive])
+    # clustered_estimations = pd.concat([naiveClusterOne, naiveClusterTwo, naiveClusterThree, naiveClusterFour, naiveClusterFive])
 
     print("1 ", len(naiveClusterOne))
     print("2 ", len(naiveClusterTwo))
     print("3 ", len(naiveClusterThree))
     print("4 ", len(naiveClusterFour))
-    #print("5 ", len(naiveClusterFive))
+    # print("5 ", len(naiveClusterFive))
 
-
-    #update filewriter to write column clustered estimator
+    # update filewriter to write column clustered estimator
 
     print(len(clustered_estimations))
 
@@ -152,38 +153,44 @@ if __name__ == "__main__":
 
     print("naive ", naive_estimations[0])
 
-    #print("clustered ", naiveClusterOne[0])
+    # print("clustered ", naiveClusterOne[0])
 
     print("clustered ", clustered_estimations[0])
 
-
-    #start of visualization
+    # start of visualization
     visualizer = Visualization()
 
-    #Shows the scatter plot for the naive estimator
+    # Shows the scatter plot for the naive estimator
     print("Pre visualization1")
     plotName = "Naive Prediction"
     naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName, trainingAddress)
     print("Finished visualization1")
 
-    #Shows the scatter plot for the clustered estimator
+    # Shows the scatter plot for the clustered estimator
     print("Pre visualization2")
     plotName = "Clustered Prediction"
     clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName, trainingAddress)
     print("Finished visualization2")
 
-    #prints the MSE diagrams
+    # prints the MSE diagrams
     print("Pre visualization3")
     if "BPI_2019" in trainingAddress:
         name = "MSE_1"
-        naive_graph_mse1 = visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2], clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2], name)
+        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
+        visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
+        visualizer.finishMSE(name)
         name = "MSE_2"
-        naive_graph_mse2 = visualizer.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5], clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5], name)
+        visualizer.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
+        visualizer.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
+        visualizer.finishMSE(name)
+
     else:
         name = "MSE"
-        naive_graph_mse = visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2], clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2], name)
+        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
+        visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
+        visualizer.finishMSE(name)
     print("Finished visualization3")
 
-    #Writes the estimators to the output file
+    # Writes the estimators to the output file
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)

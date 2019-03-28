@@ -19,7 +19,7 @@ class FileFinishFinder:
         elif "italian" in trainingAddress:
             self.finishing_event_list = ["Payment", "Send for Credit Collection"]
         elif "BPI_2019" in trainingAddress:
-            self.finishing_event_list = ['clear_invoice', 'delete_purchase']
+            self.finishing_event_list = ['Clear Invoice', 'Delete Purchase Order Item']
 
         if self.finishing_event_list == None:
             raise Exception("finishing_events are not determined")

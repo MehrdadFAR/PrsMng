@@ -1,9 +1,11 @@
 import pandas as pd
+
+
 class FileWriter:
     anEncoding = None
+
     def __init__(self, encoding):
         self.anEncoding = encoding
-
 
     def writeFile(self, name, df_test, estimatorsNaive, estimatorsClustered):
 
