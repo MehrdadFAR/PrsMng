@@ -9,15 +9,20 @@ class FileFinishFinder:
     def determine_FinishEvents(self, trainingAddress):
         if "dummy" in trainingAddress:
             self.finishing_event_list = ['e3', 'e4']
-        elif "BPI_2012" in trainingAddress:
-            self.finishing_event_list = ["A_CANCELLED", "A_ACTIVATED", "A_DECLINED", "W_Valideren aanvraag"]
+        elif "Dummy_ST" in trainingAddress:
+            self.finishing_event_list = ['evA5', 'evA6']
             # not yet checking if the aanvraag is finished !!!!!!!!
+        elif "BPI_2012" in trainingAddress:
+            self.finishing_event_list = ["A_CANCELLED COMPLETE", "A_CANCELLED SCHEDULE", "A_CANCELLED START", "A_ACTIVATED COMPLETE", "A_ACTIVATED SCHEDULE", "A_ACTIVATED START", "W_Valideren aanvraag COMPLETE"]
         elif "BPI_2017" in trainingAddress:
             self.finishing_event_list = None
         elif "BPI_2018" in trainingAddress:
             self.finishing_event_list = ['case rejected', "case basic payment"]
-        elif "italian" in trainingAddress:
+        elif "Traffic" in trainingAddress:
             self.finishing_event_list = ["Payment", "Send for Credit Collection"]
+        elif "BPI_2019" in trainingAddress:
+            self.finishing_event_list = ['Clear Invoice', 'Delete Purchase Order Item']
+
 
         if self.finishing_event_list == None:
             raise Exception("finishing_events are not determined")
