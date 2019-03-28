@@ -66,9 +66,23 @@ class Visualization:
         plt.xlabel('Time spent (Days)')
         plt.ylabel('Time left (Days)')
         plt.title(str(name) + ' remaining time')
+        # Saving plot in a .png in current directory
+        if "BPI_2012" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2012.png'
+            plt.savefig(outputName)
+        elif "BPI_2017" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2017.png'
+            plt.savefig(outputName)
+        elif "BPI_2018" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2018.png'
+            plt.savefig(outputName)
+        elif "italian" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_Italian.png'
+            plt.savefig(outputName)
+        elif "BPI_2019" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2019.png'
+            plt.savefig(outputName)
 
-        outputName = str(name) + str(nameCounter) + '.png'
-        plt.savefig(outputName)  # Saving plot in a .png in current directory
         plt.clf()
         plt.cla()
         plt.close()
@@ -83,8 +97,22 @@ class Visualization:
             plt.ylabel('Time left (Days)')
             plt.title(str(name) + ' remaining time')
 
-            outputName = str(name) + str(nameCounter) + '.png'
-            plt.savefig(outputName)  # Saving plot in a .png in current directory
+            if "BPI_2012" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2012.png'
+                plt.savefig(outputName)
+            elif "BPI_2017" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2017.png'
+                plt.savefig(outputName)
+            elif "BPI_2018" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2018.png'
+                plt.savefig(outputName)
+            elif "italian" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_Italian.png'
+                plt.savefig(outputName)
+            elif "BPI_2019" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2019.png'
+                plt.savefig(outputName)
+                
             plt.clf()
             plt.cla()
             plt.close()
@@ -231,12 +259,21 @@ class Visualization:
 
      '''
 
-    def finishMSE(self, name):
+    def finishMSE(self, name, trainingAddress):
         plt.legend(loc='upper right')
         plt.ylabel('Mean Squared Error (Days squared)')
         plt.xlabel('Time spent (Days)')
         plt.title(name)
-        plt.savefig(name + '.png')  # Saving plot in a .png in current directory
+        if "BPI_2012" in trainingAddress:
+            plt.savefig(name + '_2012.png')  # Saving plot in a .png in current directory
+        elif "BPI_2017" in trainingAddress:
+            plt.savefig(name + '_2017.png')  # Saving plot in a .png in current directory
+        elif "BPI_2018" in trainingAddress:
+            plt.savefig(name + '_2018.png')  # Saving plot in a .png in current directory
+        elif "italian" in trainingAddress:
+            plt.savefig(name + '_Italian.png')  # Saving plot in a .png in current directory
+        elif "BPI_2019" in trainingAddress:
+            plt.savefig(name + '_2019.png')  # Saving plot in a .png in current directory
         plt.clf()
         plt.cla()
         plt.close()

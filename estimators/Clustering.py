@@ -32,7 +32,7 @@ class Clustering:
         clusterdata = pd.DataFrame()
         clusterdata[self.cluster_attribute] = df[self.cluster_attribute]
 
-        km = KMeans(n_clusters=2, random_state = 3425).fit(clusterdata)
+        km = KMeans(n_clusters=8, random_state=3425).fit(clusterdata)
 
         cluster_map = pd.DataFrame()
         cluster_map['data_index'] = clusterdata.index.values
