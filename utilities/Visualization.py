@@ -2,14 +2,11 @@ from matplotlib import pyplot as plt
 import numpy as np
 import math
 
-# Data input:
-# List of dictionaries with keys 'timeSpent', 'timeLeft' and 'predLeft'.
-
-
 class Visualization:
     colorCounter = 1
 
-    def create_scatter(self, estimations_list, name, trainingAddress):
+    def create_scatter(self, estimations_list, estimator_name, data_file_name):
+        print(data_file_name)
         # format estimations list:
         #         0: tst_event_case_concept_name,
         #         1: tst_event_event_timestamp,
@@ -18,105 +15,105 @@ class Visualization:
         #         4: estimate_remaining_seconds
         #         5: actual_finish_stamp (or None)]
 
-        # Transforming dictionaries to lists per key.
-        x = []  # list of seconds passed since start of case per event
-        y = []  # actual remaining time in case
-        prediction = []  # predicted remaining time in case
+        start_to_current_time_list = []  # list of seconds passed since start of case per event ;previusly :x
+        current_to_finish_time_list = []  # actual remaining time in case ;previously y
+        estimated_current_to_finish_time_list = []  # predicted remaining time in case; previously predicted
 
-        # additional lists for 2019 file
-        x2 = []  # list of seconds passed since start of case per event
-        y2 = []  # actual remaining time in case
-        prediction2 = []  # predicted remaining time in case
+        start_to_current_time_list_2 = []  # list of seconds passed since start of case per event
+        current_to_finish_time_list_2 = []  # actual remaining time in case
+        estimated_current_to_finish_time_list_2 = []  # predicted remaining time in case
 
-        # The loop which computes the x, y and Prediction values per event
-        missed = 0
-        total = 0
+        count_missed_estimations = 0
+        count_all_estimations = 0
+        is_2019 = "BPI_2019" == data_file_name
+
         for i in estimations_list:
-            total += 1
-            # Take the passed argument and store the needed attributes
-            if i[4] is not None:
-                eventTime = i[1]
-                startTime = i[2]
-                predictTime = i[4] / (3600 * 24)
-                endTime = i[5]
+            count_all_estimations +=1
 
-                # Compute the time that has passed from the beginning of the case till the current event
-                accTime = (eventTime - startTime).total_seconds() / (3600 * 24)
+            if i[4] == None:
+                count_missed_estimations += 1
+            else:
+                current_timestamp = i[1]
+                start_timestamp = i[2]
+                estimated_remain_time = i[4] / (3600 * 24)
+                finish_timestamp = i[5]
 
-                # Makes sure the event is only visualized if there exists an finishing event
-                if endTime != None:
-                    remainTime = max(0, (endTime - eventTime).total_seconds() / (3600 * 24))
+                start_to_current_time = (current_timestamp - start_timestamp).total_seconds() / (3600 * 24)
 
-                    if "BPI_2019" in trainingAddress:
-                        if accTime < 3000:
-                            x.append(accTime)
-                            y.append(remainTime)
-                            prediction.append(predictTime)
-                        else:
-                            x2.append(accTime)
-                            y2.append(remainTime)
-                            prediction2.append(predictTime)
+                #Makes sure the event is only visualized if there exists a finishing event
+                if finish_timestamp != None:
+                    current_to_finish_time = max(0, (finish_timestamp - current_timestamp).total_seconds() / (
+                            3600 * 24))
+
+                    if is_2019 and start_to_current_time >= 3000:
+                            start_to_current_time_list_2.append(start_to_current_time)
+                            current_to_finish_time_list_2.append(current_to_finish_time)
+                            estimated_current_to_finish_time_list_2.append(estimated_remain_time)
                     else:
-                        x.append(accTime)
-                        y.append(remainTime)
-                        prediction.append(predictTime)
-                else:
-                    missed += 1
+                        start_to_current_time_list.append(start_to_current_time)
+                        current_to_finish_time_list.append(current_to_finish_time)
+                        estimated_current_to_finish_time_list.append(estimated_remain_time)
 
-        nameCounter = 1
-        ratio_missed = missed / total
-        # Computation of first plot: scatter plot of estimated and real value for Estimator.
-        plt.scatter(x, y, color='b', label='real remaining time', s=1)
-        plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
-        plt.legend(loc='upper right')
-        plt.xlabel('Time spent (Days)')
-        plt.ylabel('Time left (Days)')
-        plt.title(str(name) + ' remaining time  |   ' + str(ratio_missed))
-        # Saving plot in a .png in current directory
-        outputName = None
-        if "BPI_2012" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2012'
-        elif "BPI_2017" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2017'
-        elif "BPI_2018" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2018'
-        elif "italian" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_Italian'
-        elif "BPI_2019" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2019'
+
+        ratio_missed = count_missed_estimations / count_all_estimations
+
+        # plotting
+        if is_2019:
+            title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' \
+                    + str(round(ratio_missed,2)) + " |  plot: "
+            output_name = estimator_name + '_' + data_file_name
+
+            title += "1"
+            output_name += '_1 '
+
+            self.make_plot(start_to_current_time_list, current_to_finish_time_list,
+                           estimated_current_to_finish_time_list, title, output_name)
+
+            title = title[:-1] + "2" #drop  last character and instead add "2"
+            output_name = output_name[:-1] + '_2 ' #drop  last character and instead add "2"
+
+            self.make_plot(start_to_current_time_list_2, current_to_finish_time_list_2,
+                           estimated_current_to_finish_time_list_2, title, output_name)
         else:
-            outputName = str(name) + str(nameCounter) + '_unknown'
+            title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' \
+                    + str(round(ratio_missed,2))
 
-        plt.savefig(outputName + '.png', format='png', dpi=1200)
+            output_name = estimator_name + ' ' + data_file_name
+
+            self.make_plot(start_to_current_time_list, current_to_finish_time_list,
+                           estimated_current_to_finish_time_list, title, output_name)
+
+        #return values
+        if is_2019:
+            return start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list, \
+                                                  start_to_current_time_list_2, current_to_finish_time_list_2, estimated_current_to_finish_time_list_2
+        else:
+            return start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list
+
+
+    """
+    """
+    def make_plot(self, x, y_real, y_estimated, title, output_name):
+
+        plt.scatter(x, y_real, color='b', label='Real Remaining Time', s=1)
+
+        plt.scatter(x, y_estimated, color='r', alpha=0.5, label='Predicted Remaining Time', s=1)
+
+        plt.legend(loc='upper right')
+        plt.xlabel('Time Spent (Days)')
+        plt.ylabel('Time Left (Days)')
+        plt.title(title)
+
+        plt.savefig(output_name + '.png', dpi=1000)
+
+        plt.show()
 
         plt.clf()
         plt.cla()
         plt.close()
-        # plt.show()
 
-        if "BPI_2019" in trainingAddress:
-            nameCounter = 2
-            plt.scatter(x2, y2, color='b', label='real remaining time', s=1)
-            plt.scatter(x2, prediction2, color='r', alpha=0.5, label='predicted remaining time', s=1)
-            plt.legend(loc='upper right')
-            plt.xlabel('Time spent (Days)')
-            plt.ylabel('Time left (Days)')
-            plt.title(str(name) + ' remaining time  |   ' + str(ratio_missed))
 
-            outputName = str(name) + str(nameCounter) + '_2019'
-            plt.savefig(outputName + '.png', format='png', dpi=1200)
-
-            plt.clf()
-            plt.cla()
-            plt.close()
-            # plt.show()
-
-        if "BPI_2019" in trainingAddress:
-            return x, y, prediction, x2, y2, prediction2
-        else:
-            return x, y, prediction
-
-        # Computing MSE for Naive Estimator
+    # Computing MSE for Naive Estimator
         # meanSquared_naive = self.mse(y, Prediction)
 
     def create_mse(self, arg1, arg2, Prediction1):
@@ -238,3 +235,4 @@ class Visualization:
         plt.clf()
         plt.cla()
         plt.close()
+

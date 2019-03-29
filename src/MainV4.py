@@ -26,6 +26,7 @@ if __name__ == "__main__":
     an instance of FileFinishFinder. Used to find finishing event names.
     '''
     a_file_finish_finder = FileFinishFinder(trainingAddress)
+    data_file_name = a_file_finish_finder.get_data_file_name()
 
     '''
     Initialize the FileReader with encoding. The method  readFile(address) reads the input and returns a 
@@ -133,8 +134,9 @@ if __name__ == "__main__":
     plotName = "Clustered Prediction"
     clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName, trainingAddress)
 
-    plotName = "ST Estimator"
-    ST_graph_scatter = visualizer.create_scatter(ST_estimations, plotName, trainingAddress)
+    # Shows the scatter plot for the ST estimator
+    ST_graph_scatter = visualizer.create_scatter(ST_estimations, "ST Estimator", data_file_name)
+    
     print("Finished visualization of scatter plots")
 
     # prints the MSE diagrams
