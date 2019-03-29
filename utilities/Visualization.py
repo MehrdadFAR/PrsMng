@@ -29,12 +29,12 @@ class Visualization:
         prediction2 = []  # predicted remaining time in case
 
         # The loop which computes the x, y and Prediction values per event
-		missed = 0
+        missed = 0
         total = 0
         for i in estimations_list:
-			total += 1
-            if  i[4] != None:
-                # Take the passed argument and store the needed attributes
+            total +=
+            # Take the passed argument and store the needed attributes
+            if i[4] is not None:
                 eventTime = i[1]
                 startTime = i[2]
                 predictTime = i[4] / (3600 * 24)
@@ -60,34 +60,34 @@ class Visualization:
                         x.append(accTime)
                         y.append(remainTime)
                         prediction.append(predictTime)
-            else:
-                missed += 1
+                else:
+                    missed += 1
 
         nameCounter = 1
-		ratio_missed = missed / total
+        ratio_missed = missed / total
         # Computation of first plot: scatter plot of estimated and real value for Estimator.
         plt.scatter(x, y, color='b', label='real remaining time', s=1)
         plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
         plt.legend(loc='upper right')
         plt.xlabel('Time spent (Days)')
         plt.ylabel('Time left (Days)')
-        plt.title(str(name) + ' remaining time   | ' + str(ratio_missed))
+        plt.title(str(name) + ' remaining time  |   ' + str(ratio_missed))
         # Saving plot in a .png in current directory
+        outputName = None
         if "BPI_2012" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2012.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2012'
         elif "BPI_2017" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2017.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2017'
         elif "BPI_2018" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2018.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2018'
         elif "italian" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_Italian.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_Italian'
         elif "BPI_2019" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2019.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2019'
+        else:
+            outputName = str(name) + str(nameCounter) + '_unknown'
+
+        plt.savefig(outputName + '.png', format='png', dpi=1200)
 
         plt.clf()
         plt.cla()
@@ -101,23 +101,10 @@ class Visualization:
             plt.legend(loc='upper right')
             plt.xlabel('Time spent (Days)')
             plt.ylabel('Time left (Days)')
-            plt.title(str(name) + ' remaining time')
+            plt.title(str(name) + ' remaining time  |   ' + str(ratio_missed))
 
-            if "BPI_2012" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2012.png'
-                plt.savefig(outputName)
-            elif "BPI_2017" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2017.png'
-                plt.savefig(outputName)
-            elif "BPI_2018" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2018.png'
-                plt.savefig(outputName)
-            elif "italian" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_Italian.png'
-                plt.savefig(outputName)
-            elif "BPI_2019" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2019.png'
-                plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2019'
+            plt.savefig(outputName + '.png', format='png', dpi=1200)
 
             plt.clf()
             plt.cla()
@@ -237,15 +224,17 @@ class Visualization:
         plt.xlabel('Time spent (Days)')
         plt.title(name)
         if "BPI_2012" in trainingAddress:
-            plt.savefig(name + '_2012.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2012.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2017" in trainingAddress:
-            plt.savefig(name + '_2017.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2017.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2018" in trainingAddress:
-            plt.savefig(name + '_2018.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2018.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "italian" in trainingAddress:
-            plt.savefig(name + '_Italian.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_Italian.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2019" in trainingAddress:
-            plt.savefig(name + '_2019.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2019.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
+        else:
+            plt.savefig(name + '_unknown.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         plt.clf()
         plt.cla()
         plt.close()
