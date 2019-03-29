@@ -15,7 +15,7 @@ class FileFinishFinder:
         elif "BPI_2012" in trainingAddress:
             self.finishing_event_list = ["A_CANCELLED COMPLETE", "A_CANCELLED SCHEDULE", "A_CANCELLED START", "A_ACTIVATED COMPLETE", "A_ACTIVATED SCHEDULE", "A_ACTIVATED START", "W_Valideren aanvraag COMPLETE"]
         elif "BPI_2017" in trainingAddress:
-            self.finishing_event_list = None
+            self.finishing_event_list = ["W_Call after offers", "W_Validate application", "W_Complete application", "W_Call incomplete files"]
         elif "BPI_2018" in trainingAddress:
             self.finishing_event_list = ['case rejected', "case basic payment"]
         elif "Traffic" in trainingAddress:

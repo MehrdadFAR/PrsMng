@@ -10,7 +10,6 @@ from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
 from utilities.Visualization import Visualization
 from estimators.StateDiagramModel import State_Diagram_Model
-from utilities.PreprocessingData import PreprocessingData
 
 if __name__ == "__main__":
 
@@ -21,7 +20,6 @@ if __name__ == "__main__":
     '''
     AP = ArgumentProcessor()
     trainingAddress, testAddress, outputName, anEncoding = AP.processArgs(arguments)
-
 
     '''
     an instance of FileFinishFinder. Used to find finishing event names.
@@ -71,13 +69,11 @@ if __name__ == "__main__":
 
     t1 = time.time()
 
-    naive_estimations = naive_model.calc_naive_estimate(df_Training_extra.copy(), 
-			df_Test_extra.copy(), a_file_finish_finder, trainingAddress)
+    naive_estimations = naive_model.calc_naive_estimate(df_Training_extra.copy(),
+                                                        df_Test_extra.copy(), a_file_finish_finder, trainingAddress)
 
     t2 = time.time()
     print("Time _ calculating naive_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
-
-
 
     """ 
     Train State Transition estimator 
@@ -86,12 +82,11 @@ if __name__ == "__main__":
 
     a_State_Diagram_Model = State_Diagram_Model()
     MAX_LENGTH = a_file_finish_finder.get_max_lenght(trainingAddress)
-    ST_estimations = a_State_Diagram_Model.calc_state_transition(df_Training_extra.copy(), 
-			df_Test_extra.copy(), a_file_finish_finder, MAX_LENGTH)
+    ST_estimations = a_State_Diagram_Model.calc_state_transition(df_Training_extra.copy(),
+                                                                 df_Test_extra.copy(), a_file_finish_finder, MAX_LENGTH)
 
     t2 = time.time()
     print("Time _ calculating ST_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
-
 
     """
     Train cluster estimators
@@ -122,12 +117,12 @@ if __name__ == "__main__":
     clustered_estimations.extend(naiveClusterThree)
     clustered_estimations.extend(naiveClusterFour)                                                      
 
-	"""
+    """
     visualization
-	"""
-	print("visualization started")
-	
-	visualizer = Visualization()
+    """
+    print("visualization started")
+
+    visualizer = Visualization()
 
     # Shows the scatter plot for the naive estimator
     plotName = "Naive Prediction"
@@ -141,11 +136,11 @@ if __name__ == "__main__":
     ST_graph_scatter = visualizer.create_scatter(ST_estimations, plotName, trainingAddress)
     print("Finished visualization of scatter plots")
 
-	# prints the MSE diagrams
-	visualizer2 = None
+    # prints the MSE diagrams
+    visualizer2 = None
     if "BPI_2019" in trainingAddress:    
         visualizer2 = Visualization()
-		
+
     if "BPI_2019" in trainingAddress:
         name = "MSE_1"
         visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
@@ -166,8 +161,8 @@ if __name__ == "__main__":
         visualizer.finishMSE(name, trainingAddress)
     print("Finished visualization of MSE")
 
-	"""
+    """
     Writes the estimators to the output file ST SHOULD STILL BE ADDED
-	"""
+    """
     a_file_writer = FileWriter(anEncoding)
     outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)

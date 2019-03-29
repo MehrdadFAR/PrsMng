@@ -32,7 +32,7 @@ class Visualization:
         missed = 0
         total = 0
         for i in estimations_list:
-            total +=
+            total += 1
             # Take the passed argument and store the needed attributes
             if i[4] is not None:
                 eventTime = i[1]
