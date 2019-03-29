@@ -158,8 +158,13 @@ if __name__ == "__main__":
     print("clustered ", clustered_estimations[0])
 
     # start of visualization
-    visualizer = Visualization()
-
+    visualizer = None
+    visualizer2 = None
+    if "BPI_2019" in trainingAddress:
+        visualizer = Visualization()
+        visualizer2 = Visualization()
+    else:
+        visualizer = Visualization()
     # Shows the scatter plot for the naive estimator
     print("Pre visualization1")
     plotName = "Naive Prediction"
@@ -178,17 +183,17 @@ if __name__ == "__main__":
         name = "MSE_1"
         visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
         visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.finishMSE(name)
+        visualizer.finishMSE(name, trainingAddress)
         name = "MSE_2"
-        visualizer.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
-        visualizer.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
-        visualizer.finishMSE(name)
+        visualizer2.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
+        visualizer2.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
+        visualizer2.finishMSE(name, trainingAddress)
 
     else:
         name = "MSE"
         visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
         visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.finishMSE(name)
+        visualizer.finishMSE(name, trainingAddress)
     print("Finished visualization3")
 
     # Writes the estimators to the output file

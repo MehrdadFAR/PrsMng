@@ -112,7 +112,7 @@ class Visualization:
             elif "BPI_2019" in trainingAddress:
                 outputName = str(name) + str(nameCounter) + '_2019.png'
                 plt.savefig(outputName)
-                
+
             plt.clf()
             plt.cla()
             plt.close()
@@ -227,20 +227,25 @@ class Visualization:
             mse.append((yBin[i] - predBin[i]) ** 2)
 
         colorName = None
+        lineName = None
 
         if self.colorCounter == 1:
             colorName = 'r'
+            lineName = 'Naive Estimator'
             self.colorCounter += 1
         elif self.colorCounter == 2:
             colorName = 'g'
+            lineName = 'Clustered Estimator'
             self.colorCounter += 1
         elif self.colorCounter == 3:
             colorName = 'b'
+            lineName = 'State Transition Estimator'
             self.colorCounter += 1
         else:
             colorName = 'y'
+            lineName = 'Estimator'
 
-        plt.plot(xBin, mse, color=colorName, label='Naive Estimator', marker='.')
+        plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
     '''
     # Fills the MSE with the clustered estimator
