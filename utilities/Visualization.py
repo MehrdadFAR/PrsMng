@@ -67,21 +67,21 @@ class Visualization:
         plt.ylabel('Time left (Days)')
         plt.title(str(name) + ' remaining time')
         # Saving plot in a .png in current directory
+        outputName = None
         if "BPI_2012" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2012.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2012'
         elif "BPI_2017" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2017.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2017'
         elif "BPI_2018" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2018.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2018'
         elif "italian" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_Italian.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_Italian'
         elif "BPI_2019" in trainingAddress:
-            outputName = str(name) + str(nameCounter) + '_2019.png'
-            plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2019'
+        else:
+            outputName = str(name) + str(nameCounter) + '_unknown'
+
+        plt.savefig(outputName + '.png', format='png', dpi=1200)
 
         plt.clf()
         plt.cla()
@@ -97,21 +97,8 @@ class Visualization:
             plt.ylabel('Time left (Days)')
             plt.title(str(name) + ' remaining time')
 
-            if "BPI_2012" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2012.png'
-                plt.savefig(outputName)
-            elif "BPI_2017" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2017.png'
-                plt.savefig(outputName)
-            elif "BPI_2018" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2018.png'
-                plt.savefig(outputName)
-            elif "italian" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_Italian.png'
-                plt.savefig(outputName)
-            elif "BPI_2019" in trainingAddress:
-                outputName = str(name) + str(nameCounter) + '_2019.png'
-                plt.savefig(outputName)
+            outputName = str(name) + str(nameCounter) + '_2019'
+            plt.savefig(outputName + '.png', format='png', dpi=1200)
 
             plt.clf()
             plt.cla()
@@ -231,15 +218,17 @@ class Visualization:
         plt.xlabel('Time spent (Days)')
         plt.title(name)
         if "BPI_2012" in trainingAddress:
-            plt.savefig(name + '_2012.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2012.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2017" in trainingAddress:
-            plt.savefig(name + '_2017.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2017.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2018" in trainingAddress:
-            plt.savefig(name + '_2018.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2018.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "italian" in trainingAddress:
-            plt.savefig(name + '_Italian.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_Italian.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2019" in trainingAddress:
-            plt.savefig(name + '_2019.png')  # Saving plot in a .png in current directory
+            plt.savefig(name + '_2019.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
+        else:
+            plt.savefig(name + '_unknown.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         plt.clf()
         plt.cla()
         plt.close()
