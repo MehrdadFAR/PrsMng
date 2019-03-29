@@ -155,12 +155,6 @@ class Visualization:
             for j in binsX:
                 binsX[counter] = np.nanmean(j)
 
-                '''
-                if math.isnan(binsX[counter]):
-                    print("binsx ", binsX[counter])
-                    del binsX[counter]
-                    print("deleted")
-                '''
                 # binsX[counter] = int(binsX[counter])
                 counter += 1
 
@@ -169,11 +163,6 @@ class Visualization:
             for k in binsY:
                 binsY[counter] = np.nanmean(k)
 
-                '''
-                if math.isnan(binsY[counter]):
-                    del binsY[counter]
-                #binsY[counter] = int(binsY[counter])
-                '''
                 counter += 1
 
             # Computes the mean of every naive bin
@@ -181,11 +170,6 @@ class Visualization:
             for l in binsPred:
                 binsPred[counter] = np.nanmean(l)
 
-                '''
-                if math.isnan(binsPred[counter]):
-                    del binsPred[counter]
-                #binsPred[counter] = int(binsPred[counter])
-                '''
                 counter += 1
 
             xList = []
@@ -213,13 +197,6 @@ class Visualization:
         yBin = tempBins[1]
         predBin = tempBins[2]
 
-        # print("yBinNaive ", yBinNaive)
-        # print("xBinNaive ", xBinNaive)
-        # print("naiveBin ", naiveBin)
-
-        # xBinCluster = tempBinsCluster[0]
-        # yBinCluster = tempBinsCluster[1]
-        # clusterBin = tempBinsCluster[2]
 
         # Fills the MSE with naive estimator
         mse = []
@@ -247,22 +224,6 @@ class Visualization:
 
         plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
-    '''
-    # Fills the MSE with the clustered estimator
-
-     mseCluster = []
-     for i in range(0, len(yBinCluster)):
-         mseCluster.append((yBinCluster[i] - clusterBin[i]) ** 2)
-
-     # For testing purpose printing, should be removed later
-     # print("xbin ", xBinNaive)
-     # print("Mse ", mseNaive)
-
-     # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-     
-     plt.plot(xBinCluster, mseCluster, color='g', label='Clustered Estimator', marker='.')
-
-     '''
 
     def finishMSE(self, name, trainingAddress):
         plt.legend(loc='upper right')

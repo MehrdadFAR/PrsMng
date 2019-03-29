@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.cluster import KMeans
 
 class Clustering:
     cluster_attribute = None
@@ -28,28 +29,21 @@ class Clustering:
         if self.cluster_attribute is None:
             raise Exception("Cluster attribute is not determined")
 
-        mask1 = df['event Cumulative net worth (EUR)'] <= 1.360000e+02
+        clusterdata = pd.DataFrame()
+        clusterdata[self.cluster_attribute] = df[self.cluster_attribute]
 
-        mask2 = (df['event Cumulative net worth (EUR)'] > 1.360000e+02) & (
-                    df['event Cumulative net worth (EUR)'] <= 4.990000e+02)
+        km = KMeans(n_clusters=8, random_state=3425).fit(clusterdata)
 
-        mask3 = (df['event Cumulative net worth (EUR)'] > 4.990000e+02) & (
-                    df['event Cumulative net worth (EUR)'] <= 2.166000e+03)
+        cluster_map = pd.DataFrame()
+        cluster_map['data_index'] = clusterdata.index.values
+        cluster_map['cluster'] = km.labels_
 
-        mask4 = df['event Cumulative net worth (EUR)'] > 2.166000e+03
+        df['cluster'] = cluster_map['cluster']
 
-        df_group_1 = df[mask1]
-
-        df_group_2 = df[mask2]
-
-        df_group_3 = df[mask3]
-
-        df_group_4 = df[mask4]
-
-        self.one =  df[mask1]
-        self.two =  df[mask2]
-        self.three =  df[mask3]
-        self.four = df[mask4]
+        self.one = df[df.cluster == 0]
+        self.two = df[df.cluster == 1]
+        self.three = df[df.cluster == 2]
+        self.four = df[df.cluster == 3]
         '''
         self.five = df[df.cluster == 4]
         self.six = df[df.cluster == 0]
@@ -58,10 +52,10 @@ class Clustering:
         self.nine = df[df.cluster == 3]
         self.ten = df[df.cluster == 4]
         '''
-        #print(self.one.shape[0])
-        #print(self.two.shape[0])
-        #print(self.three.shape[0])
-        #print(self.four.shape[0])
+        print(self.one.shape[0])
+        print(self.two.shape[0])
+        print(self.three.shape[0])
+        print(self.four.shape[0])
         '''
         print(self.five.shape[0])
         print(self.six.shape[0])
