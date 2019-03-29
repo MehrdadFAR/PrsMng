@@ -1,5 +1,3 @@
-__author__ = "Mehrdad Farsadyar"
-
 class Node:
     def __init__(self, name, parent):
         self.name=name
