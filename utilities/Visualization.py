@@ -1,16 +1,15 @@
 from matplotlib import pyplot as plt
-# import pandas as pd
 import numpy as np
-import datetime
 import math
-
 
 # Data input:
 # List of dictionaries with keys 'timeSpent', 'timeLeft' and 'predLeft'.
 
-class Visualization:
 
-    def create_visualization(self, estimations_list):
+class Visualization:
+    colorCounter = 1
+
+    def create_scatter(self, estimations_list, name, trainingAddress):
         # format estimations list:
         #         0: tst_event_case_concept_name,
         #         1: tst_event_event_timestamp,
@@ -20,134 +19,233 @@ class Visualization:
         #         5: actual_finish_stamp (or None)]
 
         # Transforming dictionaries to lists per key.
-        x = [] # list of seconds passed since start of case per event
-        y = [] # actual remaining time in case
-        naivePrediction = [] #predicted remaining time in case
+        x = []  # list of seconds passed since start of case per event
+        y = []  # actual remaining time in case
+        prediction = []  # predicted remaining time in case
 
-        #The loop which computes the x, y and naivePrediction values per event
+        # additional lists for 2019 file
+        x2 = []  # list of seconds passed since start of case per event
+        y2 = []  # actual remaining time in case
+        prediction2 = []  # predicted remaining time in case
+
+        # The loop which computes the x, y and Prediction values per event
+		missed = 0
+        total = 0
         for i in estimations_list:
+			total += 1
+            if  i[4] != None:
+                # Take the passed argument and store the needed attributes
+                eventTime = i[1]
+                startTime = i[2]
+                predictTime = i[4] / (3600 * 24)
+                endTime = i[5]
 
-            #Take the passed argument and store the needed attributes
-            eventTime = i[1]
-            startTime = i[2]
-            predictTime = i[4]/3600
-            endTime = i[5]
+                # Compute the time that has passed from the beginning of the case till the current event
+                accTime = (eventTime - startTime).total_seconds() / (3600 * 24)
 
-            #Compute the time that has passed from the beginning of the case till the current event
-            accTime = (eventTime - startTime).total_seconds()/3600
+                # Makes sure the event is only visualized if there exists an finishing event
+                if endTime != None:
+                    remainTime = max(0, (endTime - eventTime).total_seconds() / (3600 * 24))
 
-            #Makes sure the event is only visualized if there exists an finishing event
-            if endTime != None:
-                remainTime = max(0,(endTime - eventTime).total_seconds()/3600)
+                    if "BPI_2019" in trainingAddress:
+                        if accTime < 3000:
+                            x.append(accTime)
+                            y.append(remainTime)
+                            prediction.append(predictTime)
+                        else:
+                            x2.append(accTime)
+                            y2.append(remainTime)
+                            prediction2.append(predictTime)
+                    else:
+                        x.append(accTime)
+                        y.append(remainTime)
+                        prediction.append(predictTime)
+            else:
+                missed += 1
 
-                x.append(accTime)
-                y.append(remainTime)
-                naivePrediction.append(predictTime)
-
-
-        # Computation of first plot: scatter plot of estimated and real value for Naive Estimator.
-        plt.scatter(x, y, color='b', label='real waiting time', s=1)
-        plt.scatter(x, naivePrediction, color='r', alpha=0.5, label='predicted waiting time', s=1)
+        nameCounter = 1
+		ratio_missed = missed / total
+        # Computation of first plot: scatter plot of estimated and real value for Estimator.
+        plt.scatter(x, y, color='b', label='real remaining time', s=1)
+        plt.scatter(x, prediction, color='r', alpha=0.5, label='predicted remaining time', s=1)
         plt.legend(loc='upper right')
-        plt.xlabel('Time spent (hours)')
-        plt.ylabel('Time left (hours)')
-        plt.title('Naive prediction waiting time')
-        plt.savefig('Naive Estimator.png')  # Saving plot in a .png in current directory
-        plt.show()
+        plt.xlabel('Time spent (Days)')
+        plt.ylabel('Time left (Days)')
+        plt.title(str(name) + ' remaining time   | ' + str(ratio_missed))
+        # Saving plot in a .png in current directory
+        if "BPI_2012" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2012.png'
+            plt.savefig(outputName)
+        elif "BPI_2017" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2017.png'
+            plt.savefig(outputName)
+        elif "BPI_2018" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2018.png'
+            plt.savefig(outputName)
+        elif "italian" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_Italian.png'
+            plt.savefig(outputName)
+        elif "BPI_2019" in trainingAddress:
+            outputName = str(name) + str(nameCounter) + '_2019.png'
+            plt.savefig(outputName)
 
+        plt.clf()
+        plt.cla()
+        plt.close()
+        # plt.show()
+
+        if "BPI_2019" in trainingAddress:
+            nameCounter = 2
+            plt.scatter(x2, y2, color='b', label='real remaining time', s=1)
+            plt.scatter(x2, prediction2, color='r', alpha=0.5, label='predicted remaining time', s=1)
+            plt.legend(loc='upper right')
+            plt.xlabel('Time spent (Days)')
+            plt.ylabel('Time left (Days)')
+            plt.title(str(name) + ' remaining time')
+
+            if "BPI_2012" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2012.png'
+                plt.savefig(outputName)
+            elif "BPI_2017" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2017.png'
+                plt.savefig(outputName)
+            elif "BPI_2018" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2018.png'
+                plt.savefig(outputName)
+            elif "italian" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_Italian.png'
+                plt.savefig(outputName)
+            elif "BPI_2019" in trainingAddress:
+                outputName = str(name) + str(nameCounter) + '_2019.png'
+                plt.savefig(outputName)
+
+            plt.clf()
+            plt.cla()
+            plt.close()
+            # plt.show()
+
+        if "BPI_2019" in trainingAddress:
+            return x, y, prediction, x2, y2, prediction2
+        else:
+            return x, y, prediction
 
         # Computing MSE for Naive Estimator
-        # meanSquared_naive = self.mse(y, naivePrediction)
+        # meanSquared_naive = self.mse(y, Prediction)
 
-        #The binning method. Makes sure the MSE graph means something visualy. Change num_of_bins if more bins are required.
-        def binning(x, y, naivePred, num_of_bins):
+    def create_mse(self, arg1, arg2, Prediction1):
+
+        # The binning method. Makes sure the MSE graph means something visually. Change num_of_bins if more bins are required.
+        def binning(x, y, Pred, num_of_bins):
             binsize = (max(x) - min(x)) / (num_of_bins - 1)
             binsX = []
             binsY = []
-            binsNaive = []
+            binsPred = []
 
-            #Initializes all bins to be empty
+            # Initializes all bins to be empty
             for i in range(0, num_of_bins):
                 binsX.append([])
                 binsY.append([])
-                binsNaive.append([])
+                binsPred.append([])
 
-
-            #adds all elements in x,y, naivePred to their respective bins
+            # adds all elements in x,y, Pred to their respective bins
             index = 0
-            for i in x:
-                binsX[int((i - min(x)) / binsize)].append(i)
-                binsY[int((i - min(x)) / binsize)].append(y[index])
-                binsNaive[int((i - min(x)) / binsize)].append(naivePred[index])
+            for a in x:
+                binsX[int((a - min(x)) / binsize)].append(a)
+                binsY[int((a - min(x)) / binsize)].append(y[index])
+                binsPred[int((a - min(x)) / binsize)].append(Pred[index])
 
                 index += 1
 
-            print("First bin x:", len(binsX[0]))
-            print("First bin y:", len(binsY[0]))
-            print("First bin naive:", len(binsNaive[0]))
-
-            print("2 bin x:", len(binsX[1]))
-            print("2 bin y:", len(binsY[1]))
-            print("2 bin naive:", len(binsNaive[1]))
-
-            #Computes the mean of every x bin
+            # Computes the mean of every x bin
             counter = 0
             for j in binsX:
-                binsX[counter] = np.mean(j)
+                binsX[counter] = np.nanmean(j)
 
-                if math.isnan(binsX[counter]):
-                    binsX[counter] = 0
-
-                binsX[counter] = int(binsX[counter])
+                # binsX[counter] = int(binsX[counter])
                 counter += 1
 
             # Computes the mean of every y bin
             counter = 0
             for k in binsY:
-                binsY[counter] = np.mean(k)
+                binsY[counter] = np.nanmean(k)
 
-                if math.isnan(binsY[counter]):
-                    binsY[counter] = 0
-                binsY[counter] = int(binsY[counter])
                 counter += 1
 
             # Computes the mean of every naive bin
             counter = 0
-            for l in binsNaive:
-                binsNaive[counter] = np.mean(l)
+            for l in binsPred:
+                binsPred[counter] = np.nanmean(l)
 
-                if math.isnan(binsNaive[counter]):
-                    binsNaive[counter] = 0
-                binsNaive[counter] = int(binsNaive[counter])
                 counter += 1
 
-            return binsX, binsY, binsNaive
+            xList = []
+            for n in binsX:
+                if not math.isnan(n):
+                    xList.append(n)
 
-        #Calls the binning function
-        tempBins = binning(x, y, naivePrediction, 21)
+            yList = []
+            for m in binsY:
+                if not math.isnan(m):
+                    yList.append(m)
+
+            estList = []
+            for o in binsPred:
+                if not math.isnan(o):
+                    estList.append(o)
+
+            return xList, yList, estList
+
+        # Calls the binning function
+        tempBins = binning(arg1, arg2, Prediction1, 51)
+        # tempBinsCluster = binning(arg3, arg4, Prediction2, 51)
 
         xBin = tempBins[0]
         yBin = tempBins[1]
-        naiveBin = tempBins[2]
+        predBin = tempBins[2]
 
 
-        #Fills the MSE
+        # Fills the MSE with naive estimator
         mse = []
         for i in range(0, len(yBin)):
-            mse.append((yBin[i] - naiveBin[i]) ** 2)
+            mse.append((yBin[i] - predBin[i]) ** 2)
+
+        colorName = None
+        lineName = None
+
+        if self.colorCounter == 1:
+            colorName = 'r'
+            lineName = 'Naive Estimator'
+            self.colorCounter += 1
+        elif self.colorCounter == 2:
+            colorName = 'g'
+            lineName = 'Clustered Estimator'
+            self.colorCounter += 1
+        elif self.colorCounter == 3:
+            colorName = 'b'
+            lineName = 'State Transition Estimator'
+            self.colorCounter += 1
+        else:
+            colorName = 'y'
+            lineName = 'Estimator'
+
+        plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
 
-        print(xBin)
-        print(mse)
-
-
-        # Plot MSE Naive estimator to time spent. Other estimators are commented for now.
-        plt.plot(xBin, mse, color='r', label='Naive Estimator', marker='.')
-
+    def finishMSE(self, name, trainingAddress):
         plt.legend(loc='upper right')
-        plt.ylabel('Mean Squared Error')
-        plt.xlabel('Time spent (hours)')
-        plt.title('MSE')
-        plt.savefig('MSE.png')  # Saving plot in a .png in current directory
-
-        plt.show()
+        plt.ylabel('Mean Squared Error (Days squared)')
+        plt.xlabel('Time spent (Days)')
+        plt.title(name)
+        if "BPI_2012" in trainingAddress:
+            plt.savefig(name + '_2012.png')  # Saving plot in a .png in current directory
+        elif "BPI_2017" in trainingAddress:
+            plt.savefig(name + '_2017.png')  # Saving plot in a .png in current directory
+        elif "BPI_2018" in trainingAddress:
+            plt.savefig(name + '_2018.png')  # Saving plot in a .png in current directory
+        elif "italian" in trainingAddress:
+            plt.savefig(name + '_Italian.png')  # Saving plot in a .png in current directory
+        elif "BPI_2019" in trainingAddress:
+            plt.savefig(name + '_2019.png')  # Saving plot in a .png in current directory
+        plt.clf()
+        plt.cla()
+        plt.close()
