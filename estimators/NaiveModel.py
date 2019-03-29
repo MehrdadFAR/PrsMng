@@ -126,11 +126,12 @@ class NaiveModel:
             # and then add this.
             TsD.setdefault(tst_event_case_concept_name, {'ev_list' : [],
                     'case_start_timestamp' : tst_event_event_timestamp,
-                    'case_finish_timestamp': None})['ev_list'].append(
-                index_of_tstEvent)
+                    'case_finish_timestamp': None})['ev_list'].append(index_of_tstEvent)
 
-            # If this test_event is a finish-event, update the finish timestamp of its case.
-            if tst_event_event_concept_name in finish_events:
+            tst_EventStatus = df_test.loc[index_of_tstEvent, 'EventStatus']
+
+            # If this test_event is a finish-event, update the finish timestamp of its case if it is not it is reset to None
+            if tst_EventStatus in finish_events:
                 TsD[tst_event_case_concept_name]['case_finish_timestamp'] = \
                     tst_event_event_timestamp
 
@@ -151,7 +152,9 @@ class NaiveModel:
 
                 temp_dict[0].append(index_of_trnEvent)
 
-                if trn_event_event_concept_name in finish_events:
+                trn_EventStatus = df_training.loc[index_of_trnEvent, 'EventStatus']
+
+                if trn_EventStatus in finish_events:
                     temp_dict[2] = trn_event_event_timestamp
                     temp_dict[0].append(index_of_trnEvent)
                     temp_dict[3] = (temp_dict[2] - temp_dict[1]).total_seconds()
