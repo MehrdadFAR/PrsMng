@@ -43,15 +43,12 @@ class FileFinishFinder:
         elif "Dummy_ST" in trainingAddress:
             return 7
         elif "BPI_2012" in trainingAddress:
-            return None
+            return 11
         elif "BPI_2017" in trainingAddress:
-            return None
+            return 35
         elif "BPI_2018" in trainingAddress:
-            return None
+            return 52
         elif "Traffic" in trainingAddress:
-            return None
+            return 5
         elif "BPI_2019" in trainingAddress:
             return 6
-		 
-
-		

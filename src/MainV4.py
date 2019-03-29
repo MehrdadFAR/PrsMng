@@ -10,6 +10,7 @@ from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
 from utilities.Visualization import Visualization
 from estimators.StateDiagramModel import State_Diagram_Model
+from estimators.Clustering import Clustering
 
 if __name__ == "__main__":
 
