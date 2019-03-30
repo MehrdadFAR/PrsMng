@@ -84,7 +84,7 @@ class NaiveModel:
                 [tst_event_case_concept_name, tst_event_event_timestamp, tst_evt_case_start_timestamp,
                  tst_evt_passed_seconds, estimate_remaining_seconds, None, index_of_tstEvent])
 
-    #__End of method__
+    #_End of method__
 
 
     '''
@@ -93,7 +93,7 @@ class NaiveModel:
     '''
     def calc_naive_estimate(self, df_training, df_test, a_file_finish_finder, trainingAddress):
         print("Naive estimator started")
-        #load here for faster acces s: ?
+        # load here for faster acces s: ?
         TsD = self.test_Dict
         TrD = self.training_Dict
 

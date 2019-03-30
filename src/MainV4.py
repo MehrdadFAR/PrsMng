@@ -94,8 +94,8 @@ if __name__ == "__main__":
     Train cluster estimators
     """
     aClusterModel = Clustering()
-    clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_original.copy())
-    clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_original.copy())
+    clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_extra.copy())
+    clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_extra.copy())
 
     naiveClassOne = NaiveModel()
     naiveClusterOne = naiveClassOne.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder,
@@ -128,11 +128,11 @@ if __name__ == "__main__":
 
     # Shows the scatter plot for the naive estimator
     plotName = "Naive Prediction"
-    naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName, trainingAddress)
+    naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName, data_file_name)
 
     # Shows the scatter plot for the clustered estimator
     plotName = "Clustered Prediction"
-    clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName, trainingAddress)
+    clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName, data_file_name)
 
     # Shows the scatter plot for the ST estimator
     ST_graph_scatter = visualizer.create_scatter(ST_estimations, "ST Estimator", data_file_name)

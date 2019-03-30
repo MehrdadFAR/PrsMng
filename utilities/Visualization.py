@@ -54,13 +54,12 @@ class Visualization:
                         current_to_finish_time_list.append(current_to_finish_time)
                         estimated_current_to_finish_time_list.append(estimated_remain_time)
 
-
         ratio_missed = count_missed_estimations / count_all_estimations
 
         # plotting
         if is_2019:
             title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' \
-                    + str(round(ratio_missed,2)) + " |  plot: "
+                    + str(round(ratio_missed, 2)) + " |  plot: "
             output_name = estimator_name + '_' + data_file_name
 
             title += "1"
