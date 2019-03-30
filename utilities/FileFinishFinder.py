@@ -51,7 +51,7 @@ class FileFinishFinder:
         elif "Dummy_ST" in trainingAddress:
             return 7
         elif "BPI_2012" in trainingAddress:
-            return 11
+            return 20
         elif "BPI_2017" in trainingAddress:
             return 35
         elif "BPI_2018" in trainingAddress:

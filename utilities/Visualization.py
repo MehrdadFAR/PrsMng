@@ -105,7 +105,7 @@ class Visualization:
 
         plt.savefig(output_name + '.png', dpi=1000)
 
-        plt.show()
+        #plt.show()
 
         plt.clf()
         plt.cla()

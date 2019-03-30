@@ -168,4 +168,4 @@ if __name__ == "__main__":
     Writes the estimators to the output file ST SHOULD STILL BE ADDED
     """
     a_file_writer = FileWriter(anEncoding)
-    outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)
+    outputFile = a_file_writer.writeFile(outputName, df_Test_original, naive_estimations, clustered_estimations)
