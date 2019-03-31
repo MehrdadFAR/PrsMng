@@ -25,6 +25,8 @@ class Clustering:
             self.cluster_attribute = ['event amount']
         elif "BPI_2019" in trainingAddress:
             self.cluster_attribute = ['event Cumulative net worth (EUR)']
+        elif "Sample" in trainingAddress:
+            self.cluster_attribute = ['event Cumulative net worth (EUR)']
 
         if self.cluster_attribute is None:
             raise Exception("Cluster attribute is not determined")

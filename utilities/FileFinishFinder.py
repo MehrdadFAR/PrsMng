@@ -31,6 +31,9 @@ class FileFinishFinder:
         elif "BPI_2019" in trainingAddress:
             self.finishing_event_list = ['Clear Invoice', 'Delete Purchase Order Item']
             self.data_file_name = "BPI_2019"
+        elif "Sample" in trainingAddress:
+            self.finishing_event_list = ['Clear Invoice', 'Delete Purchase Order Item']
+            self.data_file_name = "Sample"
 
         if self.finishing_event_list == None:
             self.data_file_name = trainingAddress
@@ -59,6 +62,8 @@ class FileFinishFinder:
         elif "Traffic" in trainingAddress:
             return 5
         elif "BPI_2019" in trainingAddress:
+            return 6
+        elif "Sample" in trainingAddress:
             return 6
 
     def get_data_file_name(self):

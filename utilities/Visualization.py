@@ -211,7 +211,7 @@ class Visualization:
             colorName = 'y'
             lineName = 'Estimator'
 
-        print("MSE: ", mse)
+        # print("MSE: ", mse)
 
         plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
@@ -231,6 +231,8 @@ class Visualization:
             plt.savefig(name + '_Italian.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2019" in trainingAddress:
             plt.savefig(name + '_2019.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
+        elif "Sample" in trainingAddress:
+            plt.savefig(name + '_Sample.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         else:
             plt.savefig(name + '_unknown.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         plt.clf()
