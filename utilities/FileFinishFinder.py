@@ -20,7 +20,7 @@ class FileFinishFinder:
                                          "W_Valideren aanvraag COMPLETE"]
             self.data_file_name = "BPI_2012"
         elif "BPI_2017" in trainingAddress:
-            self.finishing_event_list = None
+            self.finishing_event_list = ["W_Call after offers", "W_Validate application", "A_Pending", "W_Call incomplete files"]
             self.data_file_name = "BPI_2017"
         elif "BPI_2018" in trainingAddress:
             self.finishing_event_list = ['case rejected', "case basic payment"]

@@ -211,6 +211,8 @@ class Visualization:
             colorName = 'y'
             lineName = 'Estimator'
 
+        print("MSE: ", mse)
+
         plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
 
