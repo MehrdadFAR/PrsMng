@@ -153,7 +153,7 @@ if __name__ == "__main__":
         name = "MSE_2"
         visualizer2.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
         visualizer2.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
-        visualizer.create_mse(ST_graph_scatter[3], ST_graph_scatter[4], ST_graph_scatter[5])
+        visualizer2.create_mse(ST_graph_scatter[3], ST_graph_scatter[4], ST_graph_scatter[5])
         visualizer2.finishMSE(name, trainingAddress)
 
     else:
