@@ -40,7 +40,7 @@ class Visualization:
 
                 start_to_current_time = (current_timestamp - start_timestamp).total_seconds() / (3600 * 24)
 
-                #Makes sure the event is only visualized if there exists a finishing event
+                # Makes sure the event is only visualized if there exists a finishing event
                 if finish_timestamp != None:
                     current_to_finish_time = max(0, (finish_timestamp - current_timestamp).total_seconds() / (
                             3600 * 24))
@@ -136,6 +136,12 @@ class Visualization:
                 binsX[int((a - min(x)) / binsize)].append(a)
                 binsY[int((a - min(x)) / binsize)].append(y[index])
                 binsPred[int((a - min(x)) / binsize)].append(Pred[index])
+
+                '''
+                binsX[0].append(a)
+                binsY[0].append(y[index])
+                binsPred[0].append(Pred[index])
+                '''
 
                 index += 1
 
