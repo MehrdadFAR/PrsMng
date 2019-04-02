@@ -2,7 +2,7 @@
 
 
 ## Prerequisites
-In order to run the application on the system the following needs to be installed
+In order to run the application on the system the following needs to be installed:
 - Python 3.*x* 64bit, with *x* being any version
 - Pandas, a Python data analysis library
 - Numpy, a Python library for mathematical functions
