@@ -166,7 +166,7 @@ class State_Diagram_Model:
             # retrieve the test-dict and add to it this test-event; initializes the dict if not exist
             # and then add this.
             tst_temp_case_dic = TsD.setdefault(tst_case_concept_name, [[],tst_event_timestamp, None, Root,
-                                                                       False, None, index_of_tstEvent])
+                                                                       False, None])
 
 
             #'ev_list': [] --> 0
@@ -302,7 +302,9 @@ class State_Diagram_Model:
                                                   tst_case_start_timestamp).total_seconds()
 
             st_estimations.append([tst_case_concept_name, tst_event_timestamp, tst_case_start_timestamp,
-                    tst_evt_passed_seconds_since_start, event_estimated_remain_time_adjusted, None])
+                    tst_evt_passed_seconds_since_start, event_estimated_remain_time_adjusted, None, index_of_tstEvent])
+
+            print(st_estimations)
 
             #if index_of_tstEvent % 10000 == 0:
                 #print(index_of_tstEvent)
