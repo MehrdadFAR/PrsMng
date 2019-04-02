@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import math
+import warnings
 
 class Visualization:
     colorCounter = 1
@@ -94,6 +95,12 @@ class Visualization:
     """
     def make_plot(self, x, y_real, y_estimated, title, output_name):
 
+        font = {'family': 'normal',
+                'weight': 'bold',
+                'size': 22}
+
+        matplotlib.rc('font', **font)
+
         plt.scatter(x, y_real, color='b', label='Real Remaining Time', s=1)
 
         plt.scatter(x, y_estimated, color='r', alpha=0.5, label='Predicted Remaining Time', s=1)
@@ -103,9 +110,13 @@ class Visualization:
         plt.ylabel('Time Left (Days)')
         plt.title(title)
 
-        plt.savefig(output_name + '.png', dpi=1000)
 
-        #plt.show()
+        figure = plt.gcf()  # get current figure
+        figure.set_size_inches(16, 12)
+
+        plt.savefig(output_name + '.png', dpi=1200)
+
+        plt.show()
 
         plt.clf()
         plt.cla()
@@ -148,7 +159,9 @@ class Visualization:
             # Computes the mean of every x bin
             counter = 0
             for j in binsX:
-                binsX[counter] = np.nanmean(j)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    binsX[counter] = np.nanmean(j)
 
                 # binsX[counter] = int(binsX[counter])
                 counter += 1
@@ -156,14 +169,18 @@ class Visualization:
             # Computes the mean of every y bin
             counter = 0
             for k in binsY:
-                binsY[counter] = np.nanmean(k)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    binsY[counter] = np.nanmean(k)
 
                 counter += 1
 
             # Computes the mean of every naive bin
             counter = 0
             for l in binsPred:
-                binsPred[counter] = np.nanmean(l)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    binsPred[counter] = np.nanmean(l)
 
                 counter += 1
 
@@ -227,6 +244,12 @@ class Visualization:
         plt.ylabel('Mean Squared Error (Days squared)')
         plt.xlabel('Time spent (Days)')
         plt.title(name)
+
+        figure = plt.gcf()  # get current figure
+        figure.set_size_inches(16, 12)
+
+        plt.show()
+
         if "BPI_2012" in trainingAddress:
             plt.savefig(name + '_2012.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "BPI_2017" in trainingAddress:
@@ -241,6 +264,11 @@ class Visualization:
             plt.savefig(name + '_Sample.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         else:
             plt.savefig(name + '_unknown.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
+
+
+
+
+
         plt.clf()
         plt.cla()
         plt.close()

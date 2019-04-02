@@ -11,6 +11,7 @@ from utilities.MemoryUsage import MemoryUsage
 from utilities.Visualization import Visualization
 from estimators.StateDiagramModel import State_Diagram_Model
 from estimators.Clustering import Clustering
+from utilities.Preprocessing import Preprocessing
 
 if __name__ == "__main__":
 
@@ -45,6 +46,25 @@ if __name__ == "__main__":
     print("time _ read test file: " + str("%.0f" % (time.time() - t1)) + "  sec")
     print("memory usage of training DF (in MegaBytes): ", MemoryUsage.memory_usage_sum(df_Training_original))
     print("memory usage of test DF (in MegaBytes): ", MemoryUsage.memory_usage_sum(df_Test_original))
+
+    """
+    Do the preprocessing if necessary 
+    """
+    t1 = time.time()
+
+    t2 = time.time()
+    print("Time _ preprocessing: " + str("%.0f" % (t2 - t1)) + "  sec")
+    """
+    Finished preprocessing
+    """
+    if ("BPI_2019" in trainingAddress):
+        pre_processing_instance = Preprocessing()
+
+        df_training_preprocessed = pre_processing_instance.filter(df_Training_original)
+        df_test_preproccessed = pre_processing_instance.filter(df_Test_original)
+
+        df_Training_original = df_training_preprocessed
+        df_Test_original = df_test_preproccessed
 
     """ 
     make a copy of data frames
@@ -93,6 +113,8 @@ if __name__ == "__main__":
     """
     Train cluster estimators
     """
+    t1 = time.time()
+
     aClusterModel = Clustering()
     clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_extra.copy())
     clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_extra.copy())
@@ -117,12 +139,16 @@ if __name__ == "__main__":
     clustered_estimations.extend(naiveClusterOne)
     clustered_estimations.extend(naiveClusterTwo)
     clustered_estimations.extend(naiveClusterThree)
-    clustered_estimations.extend(naiveClusterFour)                                                      
+    clustered_estimations.extend(naiveClusterFour)
+
+    t2 = time.time()
+    print("Time _ calculating cluster_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
 
     """
     visualization
     """
     print("visualization started")
+    t1 = time.time()
 
     visualizer = Visualization()
 
@@ -163,6 +189,9 @@ if __name__ == "__main__":
         visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
         visualizer.finishMSE(name, trainingAddress)
     print("Finished visualization of MSE")
+
+    t2 = time.time()
+    print("Time _ calculating Visualization: " + str("%.0f" % (t2 - t1)) + "  sec")
 
     """
     Writes the estimators to the output file ST SHOULD STILL BE ADDED
