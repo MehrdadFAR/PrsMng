@@ -8,7 +8,7 @@ In order to run the application on the system the following needs to be installe
 - Numpy, a Python library for mathematical functions
 - Mathplotlib, a python library for plotting graphs
 
-Without installing the above mentioned modules the application will not be able to run
+Without installing the above mentioned modules the application will not be able to run.
 
 ## Installing
 In order to run the application Github repository should be cloned to a directory chosen by the user. Python can be downloaded from: [Download Python](https://www.python.org/downloads/)
