@@ -1,3 +1,5 @@
+__author__ = "Mehrdad Farsadyar"
+
 class Node:
     def __init__(self, name, parent):
         self.name=name
@@ -94,14 +96,15 @@ class State_Diagram_Model:
 
     def __init__(self):
         '''
-         A list. Meaning of indices:
-         0: tst_event_case_concept_name,
-         1: tst_event_event_timestamp,
-         2: tst_evt_case_start_timestamp,
-         3: tst_evt_passed_seconds_since start,
-         4: estimate_remaining_seconds
-         5: actual_finish_stamp (or None)]
-         '''
+        A list. Meaning of indices:
+        0: tst_event_case_concept_name,
+        1: tst_event_event_timestamp,
+        2: tst_evt_case_start_timestamp,
+        3: tst_evt_passed_seconds_since start,
+        4: estimate_remaining_seconds
+        5: actual_finish_stamp (or None)
+        6: index of the test event in test Data Frame.
+        '''
         self.st_estimations = []
 
         '''
@@ -163,7 +166,7 @@ class State_Diagram_Model:
             # retrieve the test-dict and add to it this test-event; initializes the dict if not exist
             # and then add this.
             tst_temp_case_dic = TsD.setdefault(tst_case_concept_name, [[],tst_event_timestamp, None, Root,
-                                                                       False])
+                                                                       False, None, index_of_tstEvent])
 
 
             #'ev_list': [] --> 0
@@ -242,18 +245,23 @@ class State_Diagram_Model:
              #'case_finish_timestamp': --> 2
              #'visiting_node':--> 3
              #'is_stuck':--> 4
+            # time stamp of when it got stuck  --> 5, init with None
 
             if  tst_temp_case_dic[4] == False:
                 next_visiting_node = tst_temp_case_dic[3].visit_next_node(tst_EventStatus)
 
                 if(next_visiting_node == None):
                     tst_temp_case_dic[4] = True #is stuck
+                    tst_temp_case_dic[5] = tst_event_timestamp
                 else:
                     tst_temp_case_dic[3] = next_visiting_node
 
+
             tst_temp_case_dic[3].add_visitors(index_of_tstEvent, TrD) #add this tst event as visitor
 
+
             event_estimated_remain_time = tst_temp_case_dic[3].members_avg_remain_time(TrD)
+
 
             """  
             if tst_event_id == '15182709391396' :
@@ -268,24 +276,36 @@ class State_Diagram_Model:
             #print(event_estimated_remain_time)
 
 
-             #A list, containing lists which indices are:
-             #0: tst_event_case_concept_name,
-             #1: tst_event_event_timestamp,
-             #2: tst_evt_case_start_timestamp,
-             #3: tst_evt_passed_seconds_since_start,
-             #4: estimate_remaining_seconds
-             #5: actual_finish_stamp (or None)]
+            #A list, containing lists which indices are:
+            #0: tst_event_case_concept_name,
+            #1: tst_event_event_timestamp,
+            #2: tst_evt_case_start_timestamp,
+            #3: tst_evt_passed_seconds_since_start,
+            #4: estimate_remaining_seconds
+            #5: actual_finish_stamp (or None)]
+
+            if tst_temp_case_dic[5] == None:
+                time_passed_since_block = 0
+            else:
+                time_passed_since_block = (tst_event_timestamp - tst_temp_case_dic[5]).total_seconds()
+
+            if event_estimated_remain_time != None:
+                event_estimated_remain_time_adjusted = max(event_estimated_remain_time - \
+                                                       time_passed_since_block, 0)
+            else:
+                event_estimated_remain_time_adjusted = event_estimated_remain_time
 
             #if  event_estimated_remain_time !=  None:
             tst_case_start_timestamp = tst_temp_case_dic[1]
 
             tst_evt_passed_seconds_since_start = (tst_event_timestamp -
-                                                tst_case_start_timestamp).total_seconds()
-            st_estimations.append([tst_case_concept_name, tst_event_timestamp, tst_case_start_timestamp,
-                    tst_evt_passed_seconds_since_start, event_estimated_remain_time, None])
+                                                  tst_case_start_timestamp).total_seconds()
 
-            if index_of_tstEvent % 10000 == 0:
-                print(index_of_tstEvent)
+            st_estimations.append([tst_case_concept_name, tst_event_timestamp, tst_case_start_timestamp,
+                    tst_evt_passed_seconds_since_start, event_estimated_remain_time_adjusted, None])
+
+            #if index_of_tstEvent % 10000 == 0:
+                #print(index_of_tstEvent)
         # __End of for-loop__
 
         self.add_actual_finish_timestamp(TsD)
