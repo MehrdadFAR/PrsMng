@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 import math
 import warnings
@@ -95,21 +96,21 @@ class Visualization:
     """
     def make_plot(self, x, y_real, y_estimated, title, output_name):
 
-        font = {'family': 'normal',
-                'weight': 'bold',
-                'size': 22}
+        font = {'size': 20}
 
-        matplotlib.rc('font', **font)
+        plt.rc('font', **font)
 
         plt.scatter(x, y_real, color='b', label='Real Remaining Time', s=1)
 
         plt.scatter(x, y_estimated, color='r', alpha=0.5, label='Predicted Remaining Time', s=1)
 
-        plt.legend(loc='upper right')
-        plt.xlabel('Time Spent (Days)')
-        plt.ylabel('Time Left (Days)')
-        plt.title(title)
+        blue_patch = mpatches.Patch(color='blue', label='Real Remaining Time')
+        red_patch = mpatches.Patch(color='red', label='Predicted Remaining Time')
+        plt.legend(handles=[blue_patch, red_patch], loc='upper right', fontsize=14)
 
+        plt.xlabel('Time Spent (Days)', fontsize=26)
+        plt.ylabel('Time Left (Days)', fontsize=26)
+        plt.title(title)
 
         figure = plt.gcf()  # get current figure
         figure.set_size_inches(16, 12)
@@ -240,9 +241,13 @@ class Visualization:
 
 
     def finishMSE(self, name, trainingAddress):
-        plt.legend(loc='upper right')
-        plt.ylabel('Mean Squared Error (Days squared)')
-        plt.xlabel('Time spent (Days)')
+        font = {'size': 20}
+
+        plt.rc('font', **font)
+
+        plt.legend(loc='upper right', fontsize=14)
+        plt.ylabel('Mean Squared Error (Days squared)', fontsize=20)
+        plt.xlabel('Time spent (Days)', fontsize=20)
         plt.title(name)
 
         figure = plt.gcf()  # get current figure
