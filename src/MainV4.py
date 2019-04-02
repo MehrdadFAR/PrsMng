@@ -107,6 +107,8 @@ if __name__ == "__main__":
     ST_estimations = a_State_Diagram_Model.calc_state_transition(df_Training_extra.copy(),
                                                                  df_Test_extra.copy(), a_file_finish_finder, MAX_LENGTH)
 
+    print("st: ", ST_estimations[0])
+
     t2 = time.time()
     print("Time _ calculating ST_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
 
@@ -162,6 +164,8 @@ if __name__ == "__main__":
 
     # Shows the scatter plot for the ST estimator
     ST_graph_scatter = visualizer.create_scatter(ST_estimations, "ST Estimator", data_file_name)
+
+
     
     print("Finished visualization of scatter plots")
 
@@ -197,4 +201,5 @@ if __name__ == "__main__":
     Writes the estimators to the output file ST SHOULD STILL BE ADDED
     """
     a_file_writer = FileWriter(anEncoding)
-    outputFile = a_file_writer.writeFile(outputName, df_Test_original, naive_estimations, clustered_estimations)
+    outputFile = a_file_writer.writeFile(outputName, df_Test_original, naive_estimations, clustered_estimations,
+                                         ST_estimations)

@@ -1,36 +1,38 @@
 import pandas as pd
 
-
 class FileWriter:
     anEncoding = None
 
     def __init__(self, encoding):
         self.anEncoding = encoding
 
-    def writeFile(self, name, df_test, estimatorsNaive, estimatorsClustered):
+    def writeFile(self, name, df_test, estimatorsNaive, estimatorsClustered, estimatorST):
 
         print("creating column naive + filling naive")
         df_test['Naive_Predictor'] = "NaN"
-        for l in  estimatorsNaive:
+        for l in estimatorsNaive:
             index = l[6]
             estimation = l[4]
             df_test.at[index, 'Naive_Predictor'] = round(estimation)
 
         print("creating column cluster + filling cluster")
         df_test['Clustered_Predictor'] = "NaN"
-        for l in  estimatorsClustered:
+        for l in estimatorsClustered:
             index = l[6]
             estimation = l[4]
             df_test.at[index, 'Clustered_Predictor'] = round(estimation)
 
-        '''
+
         print("creating column ST + filling cluster")
         df_test['ST_Predictor'] = "NaN"
         for l in estimatorST:
             index = l[6]
             estimation = l[4]
-            df_test.at[index, 'ST_Predictor'] = round(estimation)
-        '''
+            if estimation is not None:
+                df_test.at[index, 'ST_Predictor'] = round(estimation)
+            else:
+                df_test.at[index, 'ST_Predictor'] = "NaN"
+
 
         print("writing to file started.")
         try:
