@@ -304,7 +304,6 @@ class State_Diagram_Model:
             st_estimations.append([tst_case_concept_name, tst_event_timestamp, tst_case_start_timestamp,
                     tst_evt_passed_seconds_since_start, event_estimated_remain_time_adjusted, None, index_of_tstEvent])
 
-            print(st_estimations)
 
             #if index_of_tstEvent % 10000 == 0:
                 #print(index_of_tstEvent)
