@@ -27,7 +27,7 @@ class Visualization:
 
         count_missed_estimations = 0
         count_all_estimations = 0
-        is_2019 = "BPI_2019" == data_file_name
+        is_2019 = "BPI_2020" == data_file_name
 
         for i in estimations_list:
             count_all_estimations +=1
@@ -117,7 +117,7 @@ class Visualization:
 
         plt.savefig(output_name + '.png', dpi=1200)
 
-        plt.show()
+        #plt.show()
 
         plt.clf()
         plt.cla()
@@ -253,7 +253,7 @@ class Visualization:
         figure = plt.gcf()  # get current figure
         figure.set_size_inches(16, 12)
 
-        plt.show()
+        #plt.show()
 
         if "BPI_2012" in trainingAddress:
             plt.savefig(name + '_2012.png', format='png', dpi=1200)  # Saving plot in a .png in current directory

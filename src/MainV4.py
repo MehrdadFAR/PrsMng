@@ -171,10 +171,10 @@ if __name__ == "__main__":
 
     # prints the MSE diagrams
     visualizer2 = None
-    if "BPI_2019" in trainingAddress:    
+    if "BPI_2020" in trainingAddress:
         visualizer2 = Visualization()
 
-    if "BPI_2019" in trainingAddress:
+    if "BPI_2020" in trainingAddress:
         name = "MSE_1"
         visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
         visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
