@@ -27,7 +27,6 @@ class Visualization:
 
         count_missed_estimations = 0
         count_all_estimations = 0
-        is_2019 = "BPI_2020" == data_file_name
 
         for i in estimations_list:
             count_all_estimations +=1
@@ -47,49 +46,22 @@ class Visualization:
                     current_to_finish_time = max(0, (finish_timestamp - current_timestamp).total_seconds() / (
                             3600 * 24))
 
-                    if is_2019 and start_to_current_time >= 3000:
-                            start_to_current_time_list_2.append(start_to_current_time)
-                            current_to_finish_time_list_2.append(current_to_finish_time)
-                            estimated_current_to_finish_time_list_2.append(estimated_remain_time)
-                    else:
-                        start_to_current_time_list.append(start_to_current_time)
-                        current_to_finish_time_list.append(current_to_finish_time)
-                        estimated_current_to_finish_time_list.append(estimated_remain_time)
+                    start_to_current_time_list.append(start_to_current_time)
+                    current_to_finish_time_list.append(current_to_finish_time)
+                    estimated_current_to_finish_time_list.append(estimated_remain_time)
 
         ratio_missed = count_missed_estimations / count_all_estimations
 
         # plotting
-        if is_2019:
-            title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' \
-                    + str(round(ratio_missed, 2)) + " |  plot: "
-            output_name = estimator_name + '_' + data_file_name
+        title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' + str(round(ratio_missed,2))
 
-            title += "1"
-            output_name += '_1 '
+        output_name = estimator_name + ' ' + data_file_name
 
-            self.make_plot(start_to_current_time_list, current_to_finish_time_list,
-                           estimated_current_to_finish_time_list, title, output_name)
-
-            title = title[:-1] + "2" #drop  last character and instead add "2"
-            output_name = output_name[:-1] + '_2 ' #drop  last character and instead add "2"
-
-            self.make_plot(start_to_current_time_list_2, current_to_finish_time_list_2,
-                           estimated_current_to_finish_time_list_2, title, output_name)
-        else:
-            title = estimator_name + ' Remaining Time    |  ratio of estimations missed = ' \
-                    + str(round(ratio_missed,2))
-
-            output_name = estimator_name + ' ' + data_file_name
-
-            self.make_plot(start_to_current_time_list, current_to_finish_time_list,
-                           estimated_current_to_finish_time_list, title, output_name)
+        self.make_plot(start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list,
+                       title, output_name)
 
         #return values
-        if is_2019:
-            return start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list, \
-                                                  start_to_current_time_list_2, current_to_finish_time_list_2, estimated_current_to_finish_time_list_2
-        else:
-            return start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list
+        return start_to_current_time_list, current_to_finish_time_list, estimated_current_to_finish_time_list
 
 
     """

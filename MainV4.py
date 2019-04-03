@@ -53,12 +53,7 @@ if __name__ == "__main__":
     """
     t1 = time.time()
 
-    t2 = time.time()
-    print("Time _ preprocessing: " + str("%.0f" % (t2 - t1)) + "  sec")
-    """
-    Finished preprocessing
-    """
-    if ("BPI_2019" in trainingAddress):
+    if ("2019" in trainingAddress):
         pre_processing_instance = Preprocessing()
 
         df_training_preprocessed = pre_processing_instance.filter(df_Training_original)
@@ -66,6 +61,13 @@ if __name__ == "__main__":
 
         df_Training_original = df_training_preprocessed
         df_Test_original = df_test_preproccessed
+
+    t2 = time.time()
+    print("Time _ preprocessing: " + str("%.0f" % (t2 - t1)) + "  sec")
+    """
+    Finished preprocessing
+    """
+
 
     """ 
     make a copy of data frames
@@ -169,28 +171,11 @@ if __name__ == "__main__":
     print("Finished visualization of scatter plots")
 
     # prints the MSE diagrams
-    visualizer2 = None
-    if "BPI_2020" in trainingAddress:
-        visualizer2 = Visualization()
-
-    if "BPI_2020" in trainingAddress:
-        name = "MSE_1"
-        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
-        visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
-        visualizer.finishMSE(name, trainingAddress)
-        name = "MSE_2"
-        visualizer2.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
-        visualizer2.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
-        visualizer2.create_mse(ST_graph_scatter[3], ST_graph_scatter[4], ST_graph_scatter[5])
-        visualizer2.finishMSE(name, trainingAddress)
-
-    else:
-        name = "MSE"
-        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
-        visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
-        visualizer.finishMSE(name, trainingAddress)
+    name = "MSE"
+    visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
+    visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
+    visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
+    visualizer.finishMSE(name, trainingAddress)
     print("Finished visualization of MSE")
 
     t2 = time.time()
