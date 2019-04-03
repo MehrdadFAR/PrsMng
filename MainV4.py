@@ -6,9 +6,12 @@ from utilities.ArgumentProcessor import ArgumentProcessor
 from utilities.FileFinishFinder import FileFinishFinder
 from utilities.FileReader import FileReader
 from utilities.FileWriter import FileWriter
+from utilities.TestClusterer import TestClusterer
+from utilities.ClusterAttributeFinder import ClusterAttributeFinder
 from estimators.NaiveModel import NaiveModel
 from utilities.MemoryUsage import MemoryUsage
 from utilities.Visualization import Visualization
+from utilities.ToDateTime import ToDateTime
 from estimators.StateDiagramModel import State_Diagram_Model
 from estimators.Clustering import Clustering
 
@@ -55,6 +58,7 @@ if __name__ == "__main__":
     """ 
     add event_stat column 
     """
+
     if ("BPI_2012" in trainingAddress):
         df_Training_extra['EventStatus'] = \
             df_Training_extra['event concept:name'] + ' ' + df_Training_extra['event lifecycle:transition']
@@ -67,6 +71,7 @@ if __name__ == "__main__":
     """
     Train naive estimator
     """
+    '''
     naive_model = NaiveModel()
 
     t1 = time.time()
@@ -76,10 +81,11 @@ if __name__ == "__main__":
 
     t2 = time.time()
     print("Time _ calculating naive_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
-
+'''
     """ 
     Train State Transition estimator 
     """
+    '''
     t1 = time.time()
 
     a_State_Diagram_Model = State_Diagram_Model()
@@ -89,14 +95,38 @@ if __name__ == "__main__":
 
     t2 = time.time()
     print("Time _ calculating ST_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
-
+    '''
     """
     Train cluster estimators
     """
-    aClusterModel = Clustering()
-    clustersTraining = aClusterModel.clusterData(trainingAddress, df_Training_extra.copy())
-    clustersTest = aClusterModel.clusterData(trainingAddress, df_Test_extra.copy())
+    t1 = time.time()
+    #aClusterFinderModel = ClusterAttributeFinder()
+    #a_cluster_attribute = aClusterFinderModel.clusterAttributeDefiner(trainingAddress)
 
+    df_Training_cluster = df_Training_extra.copy()
+    df_Test_cluster = df_Test_extra.copy()
+
+    aDateTimeModel = ToDateTime()
+
+    df_Training_cluster = aDateTimeModel.toDateTime(df_Training_cluster)
+    df_Test_cluster = aDateTimeModel.toDateTime(df_Test_cluster)
+
+    aClusterModel = Clustering()
+    clustersTraining = aClusterModel.clusterData(df_Training_cluster)
+    clustersTest = aClusterModel.clusterData(df_Test_cluster)
+
+    clusterNaiveModel = NaiveModel()
+    naiveClusters = [0,0,0,0,0,0,0,0,0,0,0,0]
+    clustered_estimations = []
+    counter = 0
+    for i in clustersTest:
+        if isinstance(i, int):
+            print('integer : ', i, "AND Counter = ", counter)
+        if not i.empty:
+            naiveClusters[counter] = clusterNaiveModel.calc_naive_estimate(clustersTraining[counter], clustersTest[counter], a_file_finish_finder, trainingAddress)
+            clustered_estimations.append(naiveClusters[counter])
+        counter += 1
+    '''
     naiveClassOne = NaiveModel()
     naiveClusterOne = naiveClassOne.calc_naive_estimate(clustersTraining[0], clustersTest[0], a_file_finish_finder,
                                                         trainingAddress)
@@ -108,17 +138,60 @@ if __name__ == "__main__":
     naiveClassThree = NaiveModel()
     naiveClusterThree = naiveClassThree.calc_naive_estimate(clustersTraining[2], clustersTest[2], a_file_finish_finder,
                                                             trainingAddress)
-
     naiveClassFour = NaiveModel()
     naiveClusterFour = naiveClassFour.calc_naive_estimate(clustersTraining[3], clustersTest[3], a_file_finish_finder,
                                                           trainingAddress)
 
+    naiveClassFive = NaiveModel()
+    naiveClusterFive = naiveClassFive.calc_naive_estimate(clustersTraining[4], clustersTest[4], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassSix = NaiveModel()
+    naiveClusterSix = naiveClassSix.calc_naive_estimate(clustersTraining[5], clustersTest[5], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassSeven = NaiveModel()
+    naiveClusterSeven = naiveClassSeven.calc_naive_estimate(clustersTraining[6], clustersTest[6], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassEight = NaiveModel()
+    naiveClusterEight = naiveClassEight.calc_naive_estimate(clustersTraining[7], clustersTest[7], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassNine = NaiveModel()
+    naiveClusterNine = naiveClassNine.calc_naive_estimate(clustersTraining[8], clustersTest[8], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassTen = NaiveModel()
+    naiveClusterTen = naiveClassTen.calc_naive_estimate(clustersTraining[9], clustersTest[9], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassEleven = NaiveModel()
+    naiveClusterEleven = naiveClassEleven.calc_naive_estimate(clustersTraining[10], clustersTest[10], a_file_finish_finder,
+                                                          trainingAddress)
+
+    naiveClassTwelth = NaiveModel()
+    naiveClusterTwelth = naiveClassTwelth.calc_naive_estimate(clustersTraining[11], clustersTest[11], a_file_finish_finder,
+                                                          trainingAddress)
+    '''
+
+    '''
     clustered_estimations = []
     clustered_estimations.extend(naiveClusterOne)
     clustered_estimations.extend(naiveClusterTwo)
     clustered_estimations.extend(naiveClusterThree)
-    clustered_estimations.extend(naiveClusterFour)                                                      
-
+    clustered_estimations.extend(naiveClusterFour)
+    clustered_estimations.extend(naiveClusterFive)
+    clustered_estimations.extend(naiveClusterSix)
+    clustered_estimations.extend(naiveClusterSeven)
+    clustered_estimations.extend(naiveClusterEight)
+    clustered_estimations.extend(naiveClusterNine)
+    clustered_estimations.extend(naiveClusterTen)
+    clustered_estimations.extend(naiveClusterEleven)
+    clustered_estimations.extend(naiveClusterTwelth)
+    '''
+    t2 = time.time()
+    print("Time _ calculating Cluster estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
     """
     visualization
     """
@@ -127,15 +200,15 @@ if __name__ == "__main__":
     visualizer = Visualization()
 
     # Shows the scatter plot for the naive estimator
-    plotName = "Naive Prediction"
-    naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName, data_file_name)
+    #plotName = "Naive Prediction"
+    #naive_graph_scatter = visualizer.create_scatter(naive_estimations, plotName, data_file_name)
 
     # Shows the scatter plot for the clustered estimator
     plotName = "Clustered Prediction"
     clustered_graph_scatter = visualizer.create_scatter(clustered_estimations, plotName, data_file_name)
 
     # Shows the scatter plot for the ST estimator
-    ST_graph_scatter = visualizer.create_scatter(ST_estimations, "ST Estimator", data_file_name)
+    #ST_graph_scatter = visualizer.create_scatter(ST_estimations, "ST Estimator", data_file_name)
     
     print("Finished visualization of scatter plots")
 
@@ -146,26 +219,26 @@ if __name__ == "__main__":
 
     if "BPI_2019" in trainingAddress:
         name = "MSE_1"
-        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
+        #visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
         visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
+        #visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
         visualizer.finishMSE(name, trainingAddress)
         name = "MSE_2"
         visualizer2.create_mse(naive_graph_scatter[3], naive_graph_scatter[4], naive_graph_scatter[5])
         visualizer2.create_mse(clustered_graph_scatter[3], clustered_graph_scatter[4], clustered_graph_scatter[5])
-        visualizer.create_mse(ST_graph_scatter[3], ST_graph_scatter[4], ST_graph_scatter[5])
+        #visualizer2.create_mse(ST_graph_scatter[3], ST_graph_scatter[4], ST_graph_scatter[5])
         visualizer2.finishMSE(name, trainingAddress)
 
     else:
         name = "MSE"
-        visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
+        #visualizer.create_mse(naive_graph_scatter[0], naive_graph_scatter[1], naive_graph_scatter[2])
         visualizer.create_mse(clustered_graph_scatter[0], clustered_graph_scatter[1], clustered_graph_scatter[2])
-        visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
+        #visualizer.create_mse(ST_graph_scatter[0], ST_graph_scatter[1], ST_graph_scatter[2])
         visualizer.finishMSE(name, trainingAddress)
     print("Finished visualization of MSE")
 
     """
     Writes the estimators to the output file ST SHOULD STILL BE ADDED
     """
-    a_file_writer = FileWriter(anEncoding)
-    outputFile = a_file_writer.writeFile(outputName, df_Test, naive_estimations, clustered_estimations)
+    #a_file_writer = FileWriter(anEncoding)
+    #outputFile = a_file_writer.writeFile(outputName, df_Test_original, naive_estimations, clustered_estimations)

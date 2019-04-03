@@ -11,6 +11,9 @@ class FileFinishFinder:
         if "dummy" in trainingAddress:
             self.finishing_event_list = ['e3', 'e4']
             self.data_file_name = "dummy"
+        elif "Dummy"in trainingAddress:
+            self.finishing_event_list = ['Klaar']
+            self.data_file_name = "Dummy"
         elif "Dummy_ST" in trainingAddress:
             self.finishing_event_list = ['evA5', 'evA6']
             self.data_file_name = "dummy_ST"
@@ -48,10 +51,12 @@ class FileFinishFinder:
     def get_max_lenght(self, trainingAddress):
         if "dummy" in trainingAddress:
             return None
+        elif "Dummy" in trainingAddress:
+            return None
         elif "Dummy_ST" in trainingAddress:
             return 7
         elif "BPI_2012" in trainingAddress:
-            return 11
+            return 20
         elif "BPI_2017" in trainingAddress:
             return 35
         elif "BPI_2018" in trainingAddress:
