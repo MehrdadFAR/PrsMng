@@ -1,70 +1,40 @@
 import pandas as pd
-from sklearn.cluster import KMeans
 
 class Clustering:
-    cluster_attribute = None
-    one = None
-    two = None
-    three = None
-    four = None
-    five = None
+
     def __init__(self):
         pass
+    def clusterData(self, df):
+        # Grouping data on first event per case
+        grouped = df.groupby('case concept:name').tail(1)
 
-    def clusterData(self, trainingAddress, df):
-        if "Dummy" in trainingAddress:
-            self.cluster_attribute = ["something"]
-        elif "BPI_2012" in trainingAddress:
-            self.cluster_attribute = ["case AMOUNT_REQ"]
-            # Amount of money requested for a loan.
-        elif "BPI_2017" in trainingAddress:
-            self.cluster_attribute = ["case RequestedAmount"]
-        elif "BPI_2018" in trainingAddress:
-            self.cluster_attribute = ['case area']
-        elif "italian" in trainingAddress:
-            self.cluster_attribute = ['event amount']
-        elif "BPI_2019" in trainingAddress:
-            self.cluster_attribute = ['event Cumulative net worth (EUR)']
-        elif "Sample" in trainingAddress:
-            self.cluster_attribute = ['event Cumulative net worth (EUR)']
+        # Adding month of first event to grouped df
+        grouped['month'] = grouped['event time:timestamp'].dt.month
 
-        if self.cluster_attribute is None:
-            raise Exception("Cluster attribute is not determined")
+        listmonths = [0,1,2,3,4,5,6,7,8,9,10,11]
+        list_per_month = []
 
-        clusterdata = pd.DataFrame()
-        clusterdata[self.cluster_attribute] = df[self.cluster_attribute]
+        # Creating df per month with all events clustered on their starting month
+        for i in listmonths:
+            if len(grouped[grouped['month'] == i]) != 0:
+                uniqueCases = list(grouped[grouped["month"] == i]['case concept:name'])
+                dataMonth = df[df["case concept:name"].isin(uniqueCases)]
+                list_per_month.append(pd.DataFrame(dataMonth))
+            else: # Empty if no case started in this month
+                list_per_month.append(pd.DataFrame({}))
 
-        km = KMeans(n_clusters=8, random_state=3425).fit(clusterdata)
 
-        cluster_map = pd.DataFrame()
-        cluster_map['data_index'] = clusterdata.index.values
-        cluster_map['cluster'] = km.labels_
+        january = list_per_month[0]
+        february = list_per_month[1]
+        march = list_per_month[2]
+        april = list_per_month[3]
+        may = list_per_month[4]
+        june = list_per_month[5]
+        july = list_per_month[6]
+        august = list_per_month[7]
+        september = list_per_month[8]
+        october = list_per_month[9]
+        november = list_per_month[10]
+        december = list_per_month[11]
 
-        df['cluster'] = cluster_map['cluster']
-
-        self.one = df[df.cluster == 0]
-        self.two = df[df.cluster == 1]
-        self.three = df[df.cluster == 2]
-        self.four = df[df.cluster == 3]
-        '''
-        self.five = df[df.cluster == 4]
-        self.six = df[df.cluster == 0]
-        self.seven = df[df.cluster == 1]
-        self.eight = df[df.cluster == 2]
-        self.nine = df[df.cluster == 3]
-        self.ten = df[df.cluster == 4]
-        '''
-        print(self.one.shape[0])
-        print(self.two.shape[0])
-        print(self.three.shape[0])
-        print(self.four.shape[0])
-        '''
-        print(self.five.shape[0])
-        print(self.six.shape[0])
-        print(self.seven.shape[0])
-        print(self.eight.shape[0])
-        print(self.nine.shape[0])
-        print(self.ten.shape[0])
-        '''
-
-        return self.one, self.two , self.three, self.four#, self.five, self.six, self.seven, self.eight, self.nine, self.ten
+        return january, february, march, april, may, june, july, august, september, october, november, december
