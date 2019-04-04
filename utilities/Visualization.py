@@ -117,15 +117,16 @@ class Visualization:
             # adds all elements in x,y, Pred to their respective bins
             index = 0
             for a in x:
+                '''
                 binsX[int((a - min(x)) / binsize)].append(a)
                 binsY[int((a - min(x)) / binsize)].append(y[index])
                 binsPred[int((a - min(x)) / binsize)].append(Pred[index])
-
                 '''
+
                 binsX[0].append(a)
                 binsY[0].append(y[index])
                 binsPred[0].append(Pred[index])
-                '''
+
 
                 index += 1
 
@@ -207,7 +208,7 @@ class Visualization:
             colorName = 'y'
             lineName = 'Estimator'
 
-        # print("MSE: ", mse)
+        print("MSE: ", mse)
 
         plt.plot(xBin, mse, color=colorName, label=lineName, marker='.')
 
