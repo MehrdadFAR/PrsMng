@@ -7,6 +7,7 @@ In order to run the application on the system the following needs to be installe
 - Pandas, a Python data analysis library
 - Numpy, a Python library for mathematical functions
 - Mathplotlib, a python library for plotting graphs
+- Psutil, a python libary used for computing memory usage
 
 Without installing the above mentioned modules the application will not be able to run.
 
