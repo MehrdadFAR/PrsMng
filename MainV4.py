@@ -132,13 +132,14 @@ if __name__ == "__main__":
     clustersTraining = aClusterModel.clusterData(df_Training_cluster)
     clustersTest = aClusterModel.clusterData(df_Test_cluster)
 
-    clusterNaiveModel = NaiveModel()
+
     naiveClusters = [0,0,0,0,0,0,0,0,0,0,0,0]
     clustered_estimations = []
     counter = 0
 
     # Here we make sure we don't predict for empty months in the testfile
     for i in clustersTest:
+        clusterNaiveModel = NaiveModel()
         if not i.empty:
             naiveClusters[counter] = clusterNaiveModel.calc_naive_estimate(clustersTraining[counter], clustersTest[counter], a_file_finish_finder, trainingAddress)
             clustered_estimations.extend(naiveClusters[counter])

@@ -1,4 +1,5 @@
 import pandas as pd
+import warnings
 
 class Clustering:
 
@@ -9,13 +10,16 @@ class Clustering:
         grouped = df.groupby('case concept:name').tail(1)
 
         # Adding month of first event to grouped df
-        grouped['month'] = grouped['event time:timestamp'].dt.month
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            grouped['month'] = grouped['event time:timestamp'].dt.month
 
         listmonths = [0,1,2,3,4,5,6,7,8,9,10,11]
         list_per_month = []
 
         # Creating df per month with all events clustered on their starting month
         for i in listmonths:
+
             if len(grouped[grouped['month'] == i]) != 0:
                 uniqueCases = list(grouped[grouped["month"] == i]['case concept:name'])
                 dataMonth = df[df["case concept:name"].isin(uniqueCases)]
