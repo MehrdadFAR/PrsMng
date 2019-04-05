@@ -227,15 +227,15 @@ class Visualization:
 
         #plt.show()
 
-        if "BPI_2012" in trainingAddress:
+        if "BPI_Challenge_2012" in trainingAddress:
             plt.savefig(name + '_2012.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
-        elif "BPI_2017" in trainingAddress:
+        elif "BPI_Challenge_2017" in trainingAddress:
             plt.savefig(name + '_2017.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
-        elif "BPI_2018" in trainingAddress:
+        elif "BPI_Challenge_2018" in trainingAddress:
             plt.savefig(name + '_2018.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
-        elif "italian" in trainingAddress:
-            plt.savefig(name + '_Italian.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
-        elif "BPI_2019" in trainingAddress:
+        elif "Traffic" in trainingAddress:
+            plt.savefig(name + '_Traffic.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
+        elif "BPI_Challenge_2019" in trainingAddress:
             plt.savefig(name + '_2019.png', format='png', dpi=1200)  # Saving plot in a .png in current directory
         elif "Sample" in trainingAddress:
             plt.savefig(name + '_Sample.png', format='png', dpi=1200)  # Saving plot in a .png in current directory

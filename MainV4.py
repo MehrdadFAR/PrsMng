@@ -98,7 +98,7 @@ if __name__ == "__main__":
         """ 
         add event_stat column 
         """
-        if ("BPI_2012" in trainingAddress):
+        if "BPI_Challenge_2012" in trainingAddress:
             df_Training_extra['EventStatus'] = \
                 df_Training_extra['event concept:name'] + ' ' + df_Training_extra[
                     'event lifecycle:transition']
@@ -134,7 +134,7 @@ if __name__ == "__main__":
                                                                      df_Test_extra.copy(),
                                                                      a_file_finish_finder, MAX_LENGTH)
 
-        print("st: ", ST_estimations[0])
+        #print("st: ", ST_estimations[0])
 
         t2 = time.time()
         print("Time _ calculating ST_estimation: " + str("%.0f" % (t2 - t1)) + "  sec")
